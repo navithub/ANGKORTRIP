@@ -1,34 +1,431 @@
+/* Reset & base */
+* {
+  box-sizing: border-box;
+}
 body {
-    margin: 0;
-    font-family: 'Noto Sans Khmer', sans-serif;
-    background: #000;
-    color: #fff;
-    text-align: center;
-    overflow-x: hidden;
+  margin: 0;
+  font-family: 'Baloo 2', cursive;
+  background: #121212;
+  color: #eee;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
-body.light-theme {
-    background: #fff;
-    color: #000;
-}
-#bg-animation {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    overflow: hidden;
-    z-index: -1;
-}
-.emoji {
-    position: absolute;
-    font-size: 3em;
-    animation: floatEmoji 15s infinite linear;
-    opacity: 0.3;
-}
-.emoji:nth-child(1) { top: 10%; left: 20%; animation-duration: 18s; }
-.emoji:nth-child(2) { top: 50%; left: 60%; animation-duration: 20s; }
-.emoji:nth-child(3) { top: 80%; left: 40%; animation-duration: 22s; }
 
-@keyframes floatEmoji {
-    0% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-50px) rotate(180deg); }
-    100% { transform: translateY(0) rotate(360deg); }
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0b0b0b;
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.menu-icon,
+.search-icon {
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+}
+
+.logo {
+  text-align: center;
+  flex-grow: 1;
+  color: #fff;
+  user-select: none;
+}
+.dragon {
+  width: 50px;
+  display: block;
+  margin: 0 auto 5px;
+}
+
+/* Nav Buttons */
+.nav-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 15px 0;
+  background: #181818;
+  flex-wrap: wrap;
+  user-select: none;
+}
+
+.nav-btn {
+  background: #333;
+  border: none;
+  padding: 15px 30px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Baloo 2', cursive;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 0 10px #444;
+}
+
+.nav-btn:hover,
+.nav-btn:focus {
+  background: #5f9e5f;
+  box-shadow: 0 0 15px #6fc76f;
+  transform: scale(1.1);
+  outline: none;
+}
+
+/* Store Section */
+.store-title {
+  text-align: center;
+  font-weight: 900;
+  font-size: 2.5rem;
+  margin: 20px 0 10px;
+  user-select: none;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+  padding-bottom: 40px;
+}
+
+.card {
+  width: 260px;
+  padding: 30px 20px;
+  border-radius: 20px;
+  text-align: center;
+  color: white;
+  user-select: none;
+  cursor: default;
+  position: relative;
+  box-shadow: 0 0 15px rgba(255 255 255 / 0.05);
+  transition: transform 0.3s ease;
+  font-family: 'Baloo 2', cursive;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 1.8rem;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #00ff6a;
+}
+
+/* Card backgrounds */
+.ranks {
+  background: linear-gradient(135deg, #4caf50 0%, #ffeb3b 100%);
+  color: #222;
+}
+.help {
+  background: linear-gradient(135deg, #f44336 0%, #ff9800 100%);
+}
+.group {
+  background: linear-gradient(135deg, #2196f3 0%, #9c27b0 100%);
+}
+
+/* Rainbow Text */
+.rainbow-text {
+  animation: rainbow 6s linear infinite;
+}
+
+@keyframes rainbow {
+  0% {color: #f44336;}
+  20% {color: #ffeb3b;}
+  40% {color: #4caf50;}
+  60% {color: #2196f3;}
+  80% {color: #9c27b0;}
+  100% {color: #f44336;}
+}
+
+.big-text {
+  font-size: 2.7rem;
+  margin-bottom: 15px;
+}
+
+/* Badge */
+.badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #ff1744;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-weight: 900;
+  font-size: 1rem;
+  user-select: none;
+}
+
+/* Screens */
+.screen {
+  display: none;
+  padding: 40px 20px;
+  flex-grow: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  user-select: none;
+}
+
+.screen.active {
+  display: block;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+/* Inputs & Select */
+.input-field {
+  width: 100%;
+  max-width: 400px;
+  margin: 10px auto 20px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1.1rem;
+  font-family: 'Baloo 2', cursive;
+  box-shadow: inset 0 0 8px #222;
+  outline: none;
+}
+
+.input-field:focus {
+  box-shadow: 0 0 10px #00ff6a;
+}
+
+/* Alerts */
+.alert {
+  font-weight: 700;
+  color: #e53935;
+  min-height: 24px;
+  margin-bottom: 10px;
+  font-family: 'Baloo 2', cursive;
+  user-select: none;
+}
+
+/* Buttons */
+.btn-primary {
+  display: block;
+  margin: 15px auto;
+  padding: 15px 40px;
+  font-family: 'Baloo 2', cursive;
+  font-weight: 900;
+  font-size: 1.2rem;
+  color: white;
+  background: linear-gradient(45deg, #00ff6a, #00b300);
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  text-transform: uppercase;
+  box-shadow: 0 0 12px #00ff6a;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background: linear-gradient(45deg, #00b300, #00ff6a);
+  box-shadow: 0 0 20px #00ff6a;
+  transform: scale(1.1);
+  outline: none;
+}
+
+/* Back button */
+.back-btn {
+  background: #444;
+  box-shadow: 0 0 10px #666;
+}
+
+.back-btn:hover,
+.back-btn:focus {
+  background: #666;
+  box-shadow: 0 0 15px #999;
+}
+
+/* Banner */
+.banner {
+  font-size: 2.2rem;
+  font-weight: 900;
+  margin-bottom: 25px;
+  border-bottom: 3px solid #00ff6a;
+  padding-bottom: 8px;
+  font-family: 'Baloo 2', cursive;
+  user-select: none;
+}
+
+/* QR Image */
+.qr-image {
+  max-width: 300px;
+  margin: 0 auto 15px;
+  display: block;
+  border-radius: 15px;
+  box-shadow: 0 0 15px #00ff6a55;
+}
+
+/* Note Text */
+.note {
+  color: #888;
+  font-style: italic;
+  margin-bottom: 20px;
+  user-select: none;
+}
+
+/* Footer */
+footer {
+  background: #0a0a0a;
+  color: #ddd;
+  text-align: center;
+  padding: 15px 20px;
+  user-select: none;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 8px;
+}
+
+.social-icons img {
+  width: 30px;
+  filter: brightness(0) invert(1);
+  transition: filter 0.3s ease;
+  cursor: pointer;
+}
+
+.social-icons img:hover {
+  filter: brightness(1) invert(0.5) drop-shadow(0 0 5px #00ff6a);
+}
+
+/* Side Menu */
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 230px;
+  height: 100%;
+  background: #111;
+  padding: 25px 20px;
+  box-shadow: 3px 0 8px rgba(0, 0, 0, 0.8);
+  transform: translateX(-110%);
+  transition: transform 0.35s ease;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+.side-menu.open {
+  transform: translateX(0);
+}
+
+.side-menu .close-icon {
+  font-size: 2.5rem;
+  color: #00ff6a;
+  cursor: pointer;
+  margin-bottom: 30px;
+  align-self: flex-end;
+  user-select: none;
+}
+
+.side-menu-btn {
+  background: #222;
+  border: none;
+  margin-bottom: 18px;
+  padding: 15px 0;
+  border-radius: 12px;
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: #00ff6a;
+  cursor: pointer;
+  font-family: 'Baloo 2', cursive;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  box-shadow: 0 0 10px #00ff6a66;
+}
+
+.side-menu-btn:hover,
+.side-menu-btn:focus {
+  background: #00ff6a;
+  color: #111;
+  box-shadow: 0 0 25px #00ff6a;
+  transform: scale(1.1);
+  outline: none;
+}
+
+/* Tutorial Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+}
+
+.modal-content {
+  background: #121212;
+  border-radius: 15px;
+  padding: 25px 30px;
+  max-width: 400px;
+  color: #eee;
+  text-align: center;
+  font-family: 'Baloo 2', cursive;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.modal-content h2 {
+  margin-bottom: 15px;
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.modal-content ul {
+  text-align: left;
+  margin-bottom: 20px;
+  padding-left: 18px;
+}
+
+.modal-content ul li {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+/* Game Link Box */
+.game-link-box {
+  max-width: 400px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.game-link-box a {
+  display: inline-block;
+  padding: 15px 35px;
+  color: #00ff6a;
+  font-weight: 900;
+  border: 3px solid #00ff6a;
+  border-radius: 20px;
+  text-decoration: none;
+  font-family: 'Baloo 2', cursive;
+  transition: all 0.3s ease;
+}
+
+.game-link-box a:hover {
+  background: #00ff6a;
+  color: #111;
+  box-shadow: 0 0 15px #00ff6a;
+  transform: scale(1.05);
 }

@@ -1,81 +1,142 @@
 <!DOCTYPE html>
 <html lang="km">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GMSTOREKH</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cambodia</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&display=swap" rel="stylesheet" />
 </head>
 <body>
-    <div id="bg-animation">
-        <span class="emoji">🪐</span>
-        <span class="emoji">🌏</span>
-        <span class="emoji">☄️</span>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="menu-icon" id="menuToggle">&#9776;</div>
+    <div class="logo">
+      <img src="https://files.catbox.moe/v316dg.png" class="dragon" alt="Dragon" />
+      <h1>Cambodia</h1>
     </div>
+    <div class="search-icon">&#128269;</div>
+  </header>
 
-    <div id="loading-screen">
-        <div class="loading-text">សូមស្វាគមន៍មកកាន់ GMSTOREKH</div>
-        <div class="loading-bar"><div class="progress"></div></div>
+  <!-- NAVIGATION -->
+  <nav class="nav-links">
+    <button class="nav-btn" data-screen="ranks">VIEW RANKS</button>
+    <button class="nav-btn" data-screen="help">HELP</button>
+    <button class="nav-btn" data-screen="group">GROUP</button>
+  </nav>
+
+  <!-- HOME -->
+  <section id="home" class="screen active">
+    <div class="game-link-box">
+      <a href="https://www.roblox.com/games/6902530754/Angkor-Trip" target="_blank">Visit Game</a>
     </div>
+    <h2 class="store-title">STORE</h2>
+    <div class="cards">
+      <div class="card ranks">
+        <h3 class="rainbow-text big-text">VIEW RANKS</h3>
+        <button class="nav-btn" data-screen="ranks">VIEW RANKS</button>
+      </div>
+      <div class="card help">
+        <span class="badge">NEW</span>
+        <h3 class="rainbow-text big-text">HELP</h3>
+        <button class="nav-btn" data-screen="help">HELP</button>
+      </div>
+      <div class="card group">
+        <h3 class="rainbow-text big-text">GROUP</h3>
+        <button class="nav-btn" data-screen="group">GROUP</button>
+      </div>
+    </div>
+  </section>
 
-    <header>
-        <h1 class="site-name">GMSTOREKH</h1>
-        <button id="menu-btn">☰</button>
-    </header>
+  <!-- RANKS SCREEN -->
+  <section id="ranks" class="screen">
+    <div class="banner">VIEW RANKS</div>
+    <h2 class="rainbow-text big-text">Buy Rank</h2>
 
-    <nav id="menu" class="hidden">
-        <button class="menu-item" data-screen="shop">Robux Shop</button>
-        <button class="menu-item alert">Coming Soon</button>
-        <button class="menu-item alert">Coming Soon 2</button>
-    </nav>
+    <label for="rankSelect">ជ្រើសរើស Rank:</label>
+    <select id="rankSelect" class="input-field">
+      <option value="">--ជ្រើសរើស Rank--</option>
+      <option value="VIP RANK 5$">VIP RANK 5$</option>
+      <option value="SUPER RANK 8$">SUPER RANK 8$</option>
+      <option value="OWNER RANK 12$">OWNER RANK 12$</option>
+    </select>
+    <p id="rankAlert" class="alert"></p>
 
-    <main id="content">
-        <section id="welcome-screen" class="active">
-            <h2>អ្នកអាចទិញ Robux Gamepass ឬ Account Roblox ដោយសុវត្ថិភាព</h2>
-            <p>អាចទុកចិត្តយើងបាន</p>
-            <p>សូមអរគុណសម្រាប់ការប្រើប្រាស់ Website</p>
-        </section>
+    <input
+      type="text"
+      id="robloxUsername"
+      placeholder="បញ្ចូល Username Roblox"
+      class="input-field"
+    />
 
-        <section id="shop-screen" class="hidden">
-            <div class="top-icons">
-                <button id="id-card-btn">🆔</button>
-                <button id="theme-btn">🖤</button>
-            </div>
-            <h2>Robux Stock: <span id="robux-stock">17274</span></h2>
-            <div class="controls">
-                <button id="add-robux">+ Robux</button>
-                <span id="robux-selected">0 Robux</span>
-                <button id="remove-robux">- Robux</button>
-            </div>
-            <p>Total: $<span id="total-money">0</span></p>
-            <button id="payment-btn" disabled>Payment Result</button>
-        </section>
+    <button id="sendToDiscord" class="btn-primary">Sent</button>
+    <div id="response"></div>
+  </section>
 
-        <section id="id-card-screen" class="hidden">
-            <img src="https://files.catbox.moe/tf64tk.jpeg" alt="ID Card">
-            <p>Safe ID Card</p>
-            <button id="back-shop">Back to Shop</button>
-        </section>
+  <!-- PAYMENT SCREEN -->
+  <section id="payment" class="screen">
+    <div class="banner">Go to Payment</div>
+    <img
+      src="https://files.catbox.moe/4ch43c.jpeg"
+      class="qr-image"
+      alt="Payment QR"
+    />
+    <p class="note">ស្កេន QR ដើម្បីបង់ប្រាក់</p>
 
-        <section id="payment-screen" class="hidden">
-            <p id="payment-amount"></p>
-            <p>Loading QRDOLLAR...</p>
-            <div id="qr-loading" class="hidden">
-                <img src="https://files.catbox.moe/4ch43c.jpeg" alt="QRDOLLAR">
-                <p id="countdown">60</p>
-            </div>
-            <button id="restart-qr">Restart QRDOLLAR</button>
-            <button id="qr-khmer">QR KHMER</button>
-            <label>Gamepass Link:
-                <input type="text" id="gamepass-link" placeholder="Paste link here">
-            </label>
-            <p class="note">When payment done, Robux auto send</p>
-            <p class="credit">BAKONG BANK & ACLIDA BANK</p>
-            <button id="back-payment">Back</button>
-        </section>
-    </main>
+    <label for="discordContact">ដាក់ Link Discord ឬ Username:</label>
+    <input
+      type="text"
+      id="discordContact"
+      placeholder="Discord Link / Username"
+      class="input-field"
+    />
+    <label for="fileInput" class="file-label">ជ្រើសរើសរូប Screenshot</label>
+    <input type="file" id="fileInput" style="display: none" />
+    <button id="sendPayment" class="btn-primary">Send</button>
 
-    <audio id="bg-music" src="https://files.catbox.moe/kik0kq.mp3" autoplay loop></audio>
-    <script src="script.js"></script>
+    <button data-screen="home" class="nav-btn back-btn">Back to Home</button>
+  </section>
+
+  <!-- HELP SCREEN -->
+  <section id="help" class="screen">
+    <div class="banner">HELP</div>
+    <p>Coming Soon</p>
+  </section>
+
+  <!-- GROUP SCREEN -->
+  <section id="group" class="screen">
+    <div class="banner">GROUP</div>
+    <p>Coming Soon</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>JOIN NOW :</p>
+    <div class="social-icons">
+      <a href="#"><img src="icon-discord.png" alt="Discord" /></a>
+      <a href="#"><img src="icon-tiktok.png" alt="TikTok" /></a>
+      <a href="#"><img src="icon-youtube.png" alt="YouTube" /></a>
+      <a href="#"><img src="icon-facebook.png" alt="Facebook" /></a>
+      <a href="#"><img src="icon-telegram.png" alt="Telegram" /></a>
+    </div>
+  </footer>
+
+  <!-- SIDE MENU -->
+  <div class="side-menu" id="sideMenu">
+    <div class="close-icon" id="menuClose">&times;</div>
+    <button class="side-menu-btn" data-screen="ranks">VIEW RANKS</button>
+    <button class="side-menu-btn" data-screen="help">HELP</button>
+    <button class="side-menu-btn" data-screen="group">GROUP</button>
+  </div>
+
+  <!-- TUTORIAL MODAL -->
+  <div id="tutorialModal" class="modal">
+    <div class="modal-content">
+      <h2 id="tutorialTitle"></h2>
+      <ul id="tutorialSteps"></ul>
+      <button id="tutorialAgree" class="btn-primary">យល់ហើយ</button>
+    </div>
+  </div>
 </body>
 </html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMSTOREKH</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="bg-animation">
+        <span class="emoji">🪐</span>
+        <span class="emoji">🌏</span>
+        <span class="emoji">☄️</span>
+    </div>
+
+    <div id="loading-screen">
+        <div class="loading-text">សូមស្វាគមន៍មកកាន់ GMSTOREKH</div>
+        <div class="loading-bar"><div class="progress"></div></div>
+    </div>
+
+    <header>
+        <h1 class="site-name">GMSTOREKH</h1>
+        <button id="menu-btn">☰</button>
+    </header>
+
+    <nav id="menu" class="hidden">
+        <button class="menu-item" data-screen="shop">Robux Shop</button>
+        <button class="menu-item alert">Coming Soon</button>
+        <button class="menu-item alert">Coming Soon 2</button>
+    </nav>
+
+    <main id="content">
+        <section id="welcome-screen" class="active">
+            <h2>អ្នកអាចទិញ Robux Gamepass ឬ Account Roblox ដោយសុវត្ថិភាព</h2>
+            <p>អាចទុកចិត្តយើងបាន</p>
+            <p>សូមអរគុណសម្រាប់ការប្រើប្រាស់ Website</p>
+        </section>
+
+        <section id="shop-screen" class="hidden">
+            <div class="top-icons">
+                <button id="id-card-btn">🆔</button>
+                <button id="theme-btn">🖤</button>
+            </div>
+            <h2>Robux Stock: <span id="robux-stock">17274</span></h2>
+            <div class="controls">
+                <button id="add-robux">+ Robux</button>
+                <span id="robux-selected">0 Robux</span>
+                <button id="remove-robux">- Robux</button>
+            </div>
+            <p>Total: $<span id="total-money">0</span></p>
+            <button id="payment-btn" disabled>Payment Result</button>
+        </section>
+
+        <section id="id-card-screen" class="hidden">
+            <img src="https://files.catbox.moe/tf64tk.jpeg" alt="ID Card">
+            <p>Safe ID Card</p>
+            <button id="back-shop">Back to Shop</button>
+        </section>
+
+        <section id="payment-screen" class="hidden">
+            <p id="payment-amount"></p>
+            <p>Loading QRDOLLAR...</p>
+            <div id="qr-loading" class="hidden">
+                <img src="https://files.catbox.moe/4ch43c.jpeg" alt="QRDOLLAR">
+                <p id="countdown">60</p>
+            </div>
+            <button id="restart-qr">Restart QRDOLLAR</button>
+            <button id="qr-khmer">QR KHMER</button>
+            <label>Gamepass Link:
+                <input type="text" id="gamepass-link" placeholder="Paste link here">
+            </label>
+            <p class="note">When payment done, Robux auto send</p>
+            <p class="credit">BAKONG BANK & ACLIDA BANK</p>
+            <button id="back-payment">Back</button>
+        </section>
+    </main>
+
+    <audio id="bg-music" src="https://files.catbox.moe/kik0kq.mp3" autoplay loop></audio>
+    <script src="script.js"></script>
+</body>
+</html>

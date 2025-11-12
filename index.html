@@ -1,142 +1,300 @@
 <!DOCTYPE html>
 <html lang="km">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cambodia</title>
-  <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&display=swap" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khmer Timetable Schedule</title>
+    
+    <!-- Link External CSS File for custom styles and animation -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Load Tailwind CSS Library (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Khmer Font (Khmer OS Battambang) for universal support -->
+    <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Link External JavaScript File for custom Tailwind configuration -->
+    <script src="script.js"></script>
 </head>
-<body>
-  <!-- HEADER -->
-  <header class="header">
-    <div class="menu-icon" id="menuToggle">&#9776;</div>
-    <div class="logo">
-      <img src="https://files.catbox.moe/v316dg.png" class="dragon" alt="Dragon" />
-      <h1>Cambodia</h1>
+<body class="rainbow-bg min-h-screen p-4 sm:p-8 flex justify-center items-start">
+
+    <!-- Main Content Card -->
+    <div class="w-full max-w-7xl bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl p-6 sm:p-10 border-4 border-white">
+        
+        <!-- Document Header (Khmer Text) -->
+        <header class="text-center mb-8 space-y-2">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-primary-accent leading-tight">
+                តារាងបង្រៀន
+            </h1>
+            <p class="text-md text-gray-500 font-normal">
+                ឆ្នាំទី ៧ & ឆ្នាំទី ២ - ជំនាន់ទី ២០២៤
+            </p>
+        </header>
+
+        <!-- Timetable Container (Horizontal Scroll for Mobile) -->
+        <div class="overflow-x-auto rounded-xl border-2 border-primary-accent shadow-xl">
+            <table class="min-w-full divide-y divide-primary-accent/50">
+                
+                <!-- Table Header -->
+                <thead class="bg-primary-accent text-white sticky top-0">
+                    <tr>
+                        <th class="header-cell w-[100px] border-r border-white/30">ម៉ោង</th>
+                        <th class="header-cell w-[140px] border-r border-white/30">ថ្ងៃចន្ទ</th>
+                        <th class="header-cell w-[140px] border-r border-white/30">ថ្ងៃអង្គារ</th>
+                        <th class="header-cell w-[140px] border-r border-white/30">ថ្ងៃពុធ</th>
+                        <th class="header-cell w-[140px] border-r border-white/30">ថ្ងៃព្រហស្បតិ៍</th>
+                        <th class="header-cell w-[140px] border-r border-white/30">ថ្ងៃសុក្រ</th>
+                        <th class="header-cell w-[100px]">ថ្ងៃសៅរ៍</th>
+                    </tr>
+                </thead>
+
+                <!-- Table Body (Content is transcribed from your image) -->
+                <tbody class="divide-y divide-gray-200 text-gray-800 text-center">
+                    
+                    <!-- Row 1: 7:00 - 8:00 (Morning) -->
+                    <tr class="bg-secondary-light hover:bg-yellow-100 transition duration-150">
+                        <td class="schedule-cell font-bold text-primary-accent border-r">7:00 - 8:00</td>
+                        <td class="schedule-cell border-r"></td>
+                        <td class="schedule-cell border-r"></td>
+                        <td class="schedule-cell border-r"></td>
+                        <td class="schedule-cell border-r"></td>
+                        <td class="schedule-cell border-r"></td>
+                        <td class="schedule-cell"></td>
+                    </tr>
+
+                    <!-- Row 2: 8:00 - 9:00 -->
+                    <tr class="bg-white hover:bg-yellow-100 transition duration-150">
+                        <td class="schedule-cell font-bold text-primary-accent border-r">8:00 - 9:00</td>
+                        <td class="schedule-cell border-r"></td>
+                        <td class="schedule-cell bg-green-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">AG2</div>
+                            <div class="text-xs text-gray-700">លោកគ្រូ សុវណ្ណ</div>
+                            <div class="text-xs text-primary-accent font-mono">012 771 405</div>
+                        </td>
+                        <td class="schedule-cell bg-orange-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">AR4</div>
+                            <div class="text-xs text-gray-700">លោកគ្រូ សីហា</div>
+                            <div class="text-xs text-primary-accent font-mono">063 678 076</div>
+                        </td>
+                        <td class="schedule-cell border-r"></td>
+                        <td class="schedule-cell bg-blue-50/70 border-r">
+                             <div class="font-bold text-primary-accent code-text">HE2 (គេហវិទ្យា)</div>
+                            <div class="text-xs text-gray-700">លោកគ្រូ ស្រីនិមល</div>
+                            <div class="text-xs text-primary-accent font-mono">077 678 557</div>
+                        </td>
+                        <td class="schedule-cell bg-red-50/70">
+                            <div class="font-bold text-primary-accent code-text">F2 (ភាសាបារាំង)</div>
+                            <div class="text-xs text-gray-700">អ្នកគ្រូ ណារី</div>
+                            <div class="text-xs text-primary-accent font-mono">012 289 845</div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Row 3: 9:00 - 10:00 -->
+                    <tr class="bg-secondary-light hover:bg-yellow-100 transition duration-150">
+                        <td class="schedule-cell font-bold text-primary-accent border-r">9:00 - 10:00</td>
+                        <td class="schedule-cell bg-pink-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">E06</div>
+                            <div class="text-xs text-gray-700">អ្នកគ្រូ បញ្ញា</div>
+                            <div class="text-xs text-primary-accent font-mono">086 450 687</div>
+                        </td>
+                        <td class="schedule-cell border-r"></td>
+                        <td class="schedule-cell bg-pink-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">E06</div>
+                            <div class="text-xs text-gray-700">អ្នកគ្រូ បញ្ញា</div>
+                            <div class="text-xs text-primary-accent font-mono">086 450 687</div>
+                        </td>
+                        <td class="schedule-cell bg-pink-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">E06</div>
+                            <div class="text-xs text-gray-700">អ្នកគ្រូ បញ្ញា</div>
+                            <div class="text-xs text-primary-accent font-mono">086 450 687</div>
+                        </td>
+                        <td class="schedule-cell border-r"></td>
+                        <td class="schedule-cell"></td>
+                    </tr>
+
+                    <!-- Row 4: 10:00 - 11:00 -->
+                    <tr class="bg-white hover:bg-yellow-100 transition duration-150">
+                        <td class="schedule-cell font-bold text-primary-accent border-r">10:00 - 11:00</td>
+                        <td class="schedule-cell border-r"></td>
+                        <td class="schedule-cell border-r"></td>
+                        <td class="schedule-cell border-r"></td>
+                        <td class="schedule-cell border-r"></td>
+                        <td class="schedule-cell border-r"></td>
+                        <td class="schedule-cell"></td>
+                    </tr>
+
+                    <!-- Lunch Break Spacer -->
+                    <tr class="bg-primary-accent/10">
+                        <td colspan="7" class="py-3 text-center text-md font-bold text-primary-accent border-t border-b">សម្រាក</td>
+                    </tr>
+                    
+                    <!-- Row 5: 13:00 - 14:00 (Afternoon) -->
+                    <tr class="bg-secondary-light hover:bg-yellow-100 transition duration-150">
+                        <td class="schedule-cell font-bold text-primary-accent border-r">13:00 - 14:00</td>
+                        <td class="schedule-cell bg-pink-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">E13</div>
+                            <div class="text-xs text-gray-700">លោកគ្រូ សុជាតា</div>
+                            <div class="text-xs text-primary-accent font-mono">077 568 778</div>
+                        </td>
+                        <td class="schedule-cell bg-yellow-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">K27 (អក្សរសាស្រ្តខ្មែរ)</div>
+                            <div class="text-xs text-gray-700">អ្នកគ្រូ សុគន្ធ</div>
+                            <div class="text-xs text-primary-accent font-mono">012 505 855</div>
+                        </td>
+                        <td class="schedule-cell bg-red-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">M21 (គណិតវិទ្យា)</div>
+                            <div class="text-xs text-gray-700">លោកគ្រូ ចន្ធូ</div>
+                            <div class="text-xs text-primary-accent font-mono">012 349 722</div>
+                        </td>
+                        <td class="schedule-cell bg-yellow-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">K27 (អក្សរសាស្រ្តខ្មែរ)</div>
+                            <div class="text-xs text-gray-700">អ្នកគ្រូ សុគន្ធ</div>
+                            <div class="text-xs text-primary-accent font-mono">012 505 855</div>
+                        </td>
+                        <td class="schedule-cell bg-yellow-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">K27 (អក្សរសាស្រ្តខ្មែរ)</div>
+                            <div class="text-xs text-gray-700">អ្នកគ្រូ សុគន្ធ</div>
+                            <div class="text-xs text-primary-accent font-mono">012 505 855</div>
+                        </td>
+                        <td class="schedule-cell bg-green-50/70">
+                            <div class="font-bold text-primary-accent code-text">G7 (ភូមិវិទ្យា)</div>
+                            <div class="text-xs text-gray-700">លោកគ្រូ មុនី</div>
+                            <div class="text-xs text-primary-accent font-mono">066 945 846</div>
+                        </td>
+                    </tr>
+
+                    <!-- Row 6: 14:00 - 15:00 -->
+                    <tr class="bg-white hover:bg-yellow-100 transition duration-150">
+                        <td class="schedule-cell font-bold text-primary-accent border-r">14:00 - 15:00</td>
+                        <td class="schedule-cell bg-purple-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">H12 (ប្រវត្តិវិទ្យា)</div>
+                            <div class="text-xs text-gray-700">អ្នកគ្រូ នារីមុន្នី</div>
+                            <div class="text-xs text-primary-accent font-mono">017 383 722</div>
+                        </td>
+                        <td class="schedule-cell bg-red-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">M21 (គណិតវិទ្យា)</div>
+                            <div class="text-xs text-gray-700">លោកគ្រូ ចន្ធូ</div>
+                            <div class="text-xs text-primary-accent font-mono">012 349 722</div>
+                        </td>
+                        <td class="schedule-cell bg-green-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">G7 (ភូមិវិទ្យា)</div>
+                            <div class="text-xs text-gray-700">លោកគ្រូ មុនី</div>
+                            <div class="text-xs text-primary-accent font-mono">066 945 846</div>
+                        </td>
+                        <td class="schedule-cell bg-green-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">G7 (ភូមិវិទ្យា)</div>
+                            <div class="text-xs text-gray-700">លោកគ្រូ មុនី</div>
+                            <div class="text-xs text-primary-accent font-mono">066 945 846</div>
+                        </td>
+                        <td class="schedule-cell bg-green-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">G7 (ភូមិវិទ្យា)</div>
+                            <div class="text-xs text-gray-700">លោកគ្រូ មុនី</div>
+                            <div class="text-xs text-primary-accent font-mono">066 945 846</div>
+                        </td>
+                        <td class="schedule-cell bg-red-50/70">
+                            <div class="font-bold text-primary-accent code-text">M21 (គណិតវិទ្យា)</div>
+                            <div class="text-xs text-gray-700">លោកគ្រូ ចន្ធូ</div>
+                            <div class="text-xs text-primary-accent font-mono">012 349 722</div>
+                        </td>
+                    </tr>
+
+                    <!-- Row 7: 15:00 - 16:00 -->
+                    <tr class="bg-secondary-light hover:bg-yellow-100 transition duration-150">
+                        <td class="schedule-cell font-bold text-primary-accent border-r">15:00 - 16:00</td>
+                        <td class="schedule-cell bg-red-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">M21 (គណិតវិទ្យា)</div>
+                            <div class="text-xs text-gray-700">លោកគ្រូ ចន្ធូ</div>
+                            <div class="text-xs text-primary-accent font-mono">012 349 722</div>
+                        </td>
+                        <td class="schedule-cell bg-cyan-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">ES10 (ផែនដីវិទ្យា)</div>
+                            <div class="text-xs text-gray-700">អ្នកគ្រូ ម៉ាលី</div>
+                            <div class="text-xs text-primary-accent font-mono">099 845 846</div>
+                        </td>
+                        <td class="schedule-cell bg-teal-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">C10</div>
+                            <div class="text-xs text-gray-700">លោកគ្រូ ចន្រ្ទា</div>
+                            <div class="text-xs text-primary-accent font-mono">011 674 459</div>
+                        </td>
+                        <td class="schedule-cell bg-indigo-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">I11</div>
+                            <div class="text-xs text-gray-700">លោកគ្រូ វឌ្ឍនៈ</div>
+                            <div class="text-xs text-primary-accent font-mono">011 674 459</div>
+                        </td>
+                        <td class="schedule-cell bg-indigo-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">I11</div>
+                            <div class="text-xs text-gray-700">លោកគ្រូ វឌ្ឍនៈ</div>
+                            <div class="text-xs text-primary-accent font-mono">011 674 459</div>
+                        </td>
+                        <td class="schedule-cell bg-red-50/70">
+                            <div class="font-bold text-primary-accent code-text">M21 (គណិតវិទ្យា)</div>
+                            <div class="text-xs text-gray-700">លោកគ្រូ ចន្ធូ</div>
+                            <div class="text-xs text-primary-accent font-mono">012 349 722</div>
+                        </td>
+                    </tr>
+
+                    <!-- Row 8: 16:00 - 17:00 -->
+                    <tr class="bg-white hover:bg-yellow-100 transition duration-150">
+                        <td class="schedule-cell font-bold text-primary-accent border-r">16:00 - 17:00</td>
+                        <td class="schedule-cell bg-green-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">G7 (ភូមិវិទ្យា)</div>
+                            <div class="text-xs text-gray-700">លោកគ្រូ មុនី</div>
+                            <div class="text-xs text-primary-accent font-mono">066 945 846</div>
+                        </td>
+                        <td class="schedule-cell bg-red-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">M21 (គណិតវិទ្យា)</div>
+                            <div class="text-xs text-gray-700">លោកគ្រូ ចន្ធូ</div>
+                            <div class="text-xs text-primary-accent font-mono">012 349 722</div>
+                        </td>
+                        <td class="schedule-cell bg-purple-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">B9 (ជីវវិទ្យា)</div>
+                            <div class="text-xs text-gray-700">អ្នកគ្រូ ភារម្យ</div>
+                            <div class="text-xs text-primary-accent font-mono">011 674 459</div>
+                        </td>
+                        <td class="schedule-cell bg-purple-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">B9 (ជីវវិទ្យា)</div>
+                            <div class="text-xs text-gray-700">អ្នកគ្រូ ភារម្យ</div>
+                            <div class="text-xs text-primary-accent font-mono">011 674 459</div>
+                        </td>
+                        <td class="schedule-cell bg-teal-50/70 border-r">
+                            <div class="font-bold text-primary-accent code-text">P9 (រូបវិទ្យា)</div>
+                            <div class="text-xs text-gray-700">អ្នកគ្រូ សុភាព</div>
+                            <div class="text-xs text-primary-accent font-mono">098 789 278</div>
+                        </td>
+                        <td class="schedule-cell"></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Legend/Footer Text (Khmer Text) -->
+        <footer class="mt-8 text-sm text-gray-700 border-t pt-6">
+            <h3 class="font-bold text-primary-accent mb-3 text-lg">កូនសោ (Legend)</h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-3 gap-x-6 leading-snug">
+                <div><span class="font-bold text-primary-accent">M:</span> គណិតវិទ្យា (Mathematics)</div>
+                <div><span class="font-bold text-primary-accent">B:</span> ជីវវិទ្យា (Biology)</div>
+                <div><span class="font-bold text-primary-accent">F:</span> ភាសាបារាំង (French)</div>
+                <div><span class="font-bold text-primary-accent">H:</span> ប្រវត្តិវិទ្យា (History)</div>
+                
+                <div><span class="font-bold text-primary-accent">HE:</span> គេហវិទ្យា (Home Science)</div>
+                <div><span class="font-bold text-primary-accent">P:</span> រូបវិទ្យា (Physics)</div>
+                <div><span class="font-bold text-primary-accent">ES:</span> ផែនដីវិទ្យា (Earth Science)</div>
+                <div><span class="font-bold text-primary-accent">K:</span> អក្សរសាស្រ្តខ្មែរ (Khmer Literature)</div>
+                
+                <div><span class="font-bold text-primary-accent">G:</span> ភូមិវិទ្យា (Geography)</div>
+                <div><span class="font-bold text-primary-accent">E:</span> អេឡិចត្រូនិច (Electronics) <span class="text-xs">(Guess)</span></div>
+                <div><span class="font-bold text-primary-accent">I:</span> បច្ចេកវិទ្យា (IT) <span class="text-xs">(Guess)</span></div>
+                <div><span class="font-bold text-primary-accent">C:</span> គីមីវិទ្យា (Chemistry) <span class="text-xs">(Guess)</span></div>
+            </div>
+            <p class="mt-8 text-center text-xs font-medium text-gray-600">
+                បោះពុម្ភដោយរដ្ឋបាលសាលា, ថ្ងៃសុក្រ, ៤ ខែវិច្ឆិកា ឆ្នាំ ២០២៤។ រក្សាសិទ្ធិគ្រប់យ៉ាង។
+            </p>
+        </footer>
+
     </div>
-    <div class="search-icon">&#128269;</div>
-  </header>
 
-  <!-- NAVIGATION -->
-  <nav class="nav-links">
-    <button class="nav-btn" data-screen="ranks">VIEW RANKS</button>
-    <button class="nav-btn" data-screen="help">HELP</button>
-    <button class="nav-btn" data-screen="group">GROUP</button>
-  </nav>
-
-  <!-- HOME -->
-  <section id="home" class="screen active">
-    <div class="game-link-box">
-      <a href="https://www.roblox.com/games/6902530754/Angkor-Trip" target="_blank">Visit Game</a>
-    </div>
-    <h2 class="store-title">STORE</h2>
-    <div class="cards">
-      <div class="card ranks">
-        <h3 class="rainbow-text big-text">VIEW RANKS</h3>
-        <button class="nav-btn" data-screen="ranks">VIEW RANKS</button>
-      </div>
-      <div class="card help">
-        <span class="badge">NEW</span>
-        <h3 class="rainbow-text big-text">HELP</h3>
-        <button class="nav-btn" data-screen="help">HELP</button>
-      </div>
-      <div class="card group">
-        <h3 class="rainbow-text big-text">GROUP</h3>
-        <button class="nav-btn" data-screen="group">GROUP</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- RANKS SCREEN -->
-  <section id="ranks" class="screen">
-    <div class="banner">VIEW RANKS</div>
-    <h2 class="rainbow-text big-text">Buy Rank</h2>
-
-    <label for="rankSelect">ជ្រើសរើស Rank:</label>
-    <select id="rankSelect" class="input-field">
-      <option value="">--ជ្រើសរើស Rank--</option>
-      <option value="VIP RANK 5$">VIP RANK 5$</option>
-      <option value="SUPER RANK 8$">SUPER RANK 8$</option>
-      <option value="OWNER RANK 12$">OWNER RANK 12$</option>
-    </select>
-    <p id="rankAlert" class="alert"></p>
-
-    <input
-      type="text"
-      id="robloxUsername"
-      placeholder="បញ្ចូល Username Roblox"
-      class="input-field"
-    />
-
-    <button id="sendToDiscord" class="btn-primary">Sent</button>
-    <div id="response"></div>
-  </section>
-
-  <!-- PAYMENT SCREEN -->
-  <section id="payment" class="screen">
-    <div class="banner">Go to Payment</div>
-    <img
-      src="https://files.catbox.moe/4ch43c.jpeg"
-      class="qr-image"
-      alt="Payment QR"
-    />
-    <p class="note">ស្កេន QR ដើម្បីបង់ប្រាក់</p>
-
-    <label for="discordContact">ដាក់ Link Discord ឬ Username:</label>
-    <input
-      type="text"
-      id="discordContact"
-      placeholder="Discord Link / Username"
-      class="input-field"
-    />
-    <label for="fileInput" class="file-label">ជ្រើសរើសរូប Screenshot</label>
-    <input type="file" id="fileInput" style="display: none" />
-    <button id="sendPayment" class="btn-primary">Send</button>
-
-    <button data-screen="home" class="nav-btn back-btn">Back to Home</button>
-  </section>
-
-  <!-- HELP SCREEN -->
-  <section id="help" class="screen">
-    <div class="banner">HELP</div>
-    <p>Coming Soon</p>
-  </section>
-
-  <!-- GROUP SCREEN -->
-  <section id="group" class="screen">
-    <div class="banner">GROUP</div>
-    <p>Coming Soon</p>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <p>JOIN NOW :</p>
-    <div class="social-icons">
-      <a href="#"><img src="icon-discord.png" alt="Discord" /></a>
-      <a href="#"><img src="icon-tiktok.png" alt="TikTok" /></a>
-      <a href="#"><img src="icon-youtube.png" alt="YouTube" /></a>
-      <a href="#"><img src="icon-facebook.png" alt="Facebook" /></a>
-      <a href="#"><img src="icon-telegram.png" alt="Telegram" /></a>
-    </div>
-  </footer>
-
-  <!-- SIDE MENU -->
-  <div class="side-menu" id="sideMenu">
-    <div class="close-icon" id="menuClose">&times;</div>
-    <button class="side-menu-btn" data-screen="ranks">VIEW RANKS</button>
-    <button class="side-menu-btn" data-screen="help">HELP</button>
-    <button class="side-menu-btn" data-screen="group">GROUP</button>
-  </div>
-
-  <!-- TUTORIAL MODAL -->
-  <div id="tutorialModal" class="modal">
-    <div class="modal-content">
-      <h2 id="tutorialTitle"></h2>
-      <ul id="tutorialSteps"></ul>
-      <button id="tutorialAgree" class="btn-primary">យល់ហើយ</button>
-    </div>
-  </div>
 </body>
 </html>
+

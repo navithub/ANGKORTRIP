@@ -3,19 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khmer Timetable Schedule</title>
-    
-    <!-- Link External CSS File for custom styles and animation -->
-    <link rel="stylesheet" href="style.css">
-    
-    <!-- Load Tailwind CSS Library (CDN) -->
+    <title>តារាងបង្រៀន - កំណែឯកសារតែមួយ</title>
+    <!-- Load Tailwind CSS Library -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Load Khmer Font (Khmer OS Battambang) for universal support -->
     <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <!-- CSS (Styles and Animations) -->
+    <style>
+        /* --- CSS: Keyframes for Slow Rainbow Animation --- */
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .rainbow-bg {
+            /* Deeper, more saturated gradient for a richer rainbow effect */
+            background: linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6, #ec4899, #f97316, #10b981);
+            background-size: 400% 400%;
+            animation: rainbow 40s ease-in-out infinite; /* Very slow and smooth animation */
+            background-attachment: fixed;
+        }
+        
+        /* CSS: Apply the specific Khmer font globally and increase base size */
+        body {
+            font-family: 'Battambang', system-ui, sans-serif;
+            font-size: 1.05rem; /* Increased base font size for better readability (zoom) */
+        }
+
+        /* CSS: Table cell styling for better "zoom" and padding */
+        .schedule-cell {
+            padding: 12px 8px; 
+            font-size: 0.95rem;
+            line-height: 1.4;
+            transition: background-color 0.2s;
+        }
+        .header-cell {
+            font-weight: 700;
+            padding: 16px 8px;
+            font-size: 1.1rem;
+            white-space: nowrap;
+        }
+        .code-text {
+            font-size: 1.1rem; /* Make the class code slightly bigger */
+        }
+    </style>
     
-    <!-- Link External JavaScript File for custom Tailwind configuration -->
-    <script src="script.js"></script>
+    <!-- JavaScript (Tailwind Configuration) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Custom colors used in the main body
+                        'primary-accent': '#0056B3', /* Professional Dark Blue */
+                        'secondary-light': '#F0F9FF', /* Very Light Blue for background contrast */
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body class="rainbow-bg min-h-screen p-4 sm:p-8 flex justify-center items-start">
 
@@ -297,4 +345,5 @@
 
 </body>
 </html>
+
 

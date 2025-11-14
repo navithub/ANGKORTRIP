@@ -95,10 +95,32 @@
 
     <!-- Welcome Overlay -->
     <div id="welcome-overlay" class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 transition-opacity duration-1000 ease-in-out">
+        <!-- UPDATED WELCOME TEXT -->
         <div id="welcome-text" class="text-5xl md:text-7xl font-black text-yellow-400 opacity-0" style="text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);">
             ខំរៀនណាក្មេងតូច🥳
         </div>
     </div>
+
+    <!-- Notification Alert System (New Element) -->
+    <!-- Updated for larger size (max-w-md) and bigger content -->
+    <div id="notification-box" class="fixed top-4 right-4 z-40 p-4 shadow-2xl rounded-2xl bg-red-600/95 transform translate-x-full transition-all duration-500 ease-out border-4 border-yellow-300 hidden max-w-md">
+        <!-- UPDATED SPACE-X-4 to SPACE-x-6 for better spacing with large icon -->
+        <div class="flex items-center space-x-6">
+            <!-- Notification Image (Larger: w-20 h-20) -->
+            <img id="notification-image" 
+                src="https://files.catbox.moe/jxpg0v.jpeg" 
+                onerror="this.onerror=null;this.src='https://placehold.co/60x60/FF0000/FFFFFF?text=PIC';" 
+                class="w-20 h-20 rounded-lg object-cover border-2 border-white shadow-lg flex-shrink-0" 
+                alt="Teacher Alert">
+            
+            <div>
+                <!-- Main Alert Text (UPDATED: text-2xl to text-3xl) -->
+                <p class="text-white text-3xl font-bold">ប្រយ័ត្ន! 🧑‍🏫</p>
+                <!-- Removed: <p class="text-yellow-300 text-sm font-medium">គ្រូអាច Online!</p> -->
+            </div>
+        </div>
+    </div>
+
 
     <!-- Main Content Wrapper -->
     <div class="w-full max-w-4xl p-4 md:p-8 pt-10">
@@ -134,6 +156,18 @@
                 <span id="live-date">...</span> | <span id="live-time">...</span>
             </div>
 
+            <!-- Presence Counters -->
+            <div class="flex justify-center items-center space-x-6 mb-6 text-xl">
+                <div title="អ្នកកំពុង Online" class="flex items-center space-x-2 text-green-600 font-bold live-text">
+                    <span class="text-2xl">●</span>
+                    <span id="online-counter">0</span>
+                </div>
+                <div title="អ្នកចូលមើលសរុប" class="flex items-center space-x-2 text-blue-600 font-bold">
+                    <span class="text-2xl">■</span>
+                    <span id="total-counter">0</span>
+                </div>
+            </div>
+
             <!-- Schedule Title -->
             <h2 class="text-2xl md:text-3xl font-bold text-green-600 mb-6 border-b-2 pb-2 border-green-300">
                 <span class="live-text">TODAY HAVE</span>
@@ -149,12 +183,12 @@
 
         </div>
 
-        <!-- Creator & Bio Section (Always visible, styled for Rainbow BG) -->
+        <!-- Creator & Bio Section (Always visible) -->
         <div id="creator-bio-section" class="w-full py-8 mt-4 text-center">
             
             <div id="creator-text-container" class="mb-4 text-center">
                 <span id="creator-text" class="text-xl md:text-3xl font-black tracking-widest transition-colors duration-500">
-                    Creator by VID+KDOA🐭
+                    Creator by មាស ប៊ុណ្ណាវីត
                 </span>
             </div>
 
@@ -167,10 +201,60 @@
 
     </div>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot, collection, serverTimestamp, updateDoc, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- Global State & Constants ---
+        let app = null;
+        let auth = null;
+        let db = null;
+        let userId = null;
+        let isAuthReady = false; 
+        const USER_ACTIVITY_TIMEOUT = 5 * 60 * 1000; // 5 minutes (300000ms)
+        
+        // Notification timing constants
+        const NOTIFICATION_DURATION = 6000; // 6 seconds (UPDATED from 3000)
+        const NOTIFICATION_INTERVAL = 360000; // 360 seconds (6 minutes)
+
+        // Global Variables from Canvas Environment
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        const generateAnonId = () => 'anon-' + Math.random().toString(36).substring(2, 9) + Date.now();
+
+        // Key: Day of the week (0=Sunday, 1=Monday, ..., 6=Saturday)
+        const SCHEDULE_DATA = {
+            1: { dayKh: "ថ្ងៃចន្ទ", classes: [{ subject: "អង់គ្លេស", time: "13:00 > 14:00" }, { subject: "ប្រវត្តិវិទ្យា", time: "14:00 > 15:00" }, { subject: "គណិតវិទ្យា", time: "15:00 > 17:00" }] },
+            2: { dayKh: "ថ្ងៃអង្គារ", classes: [{ subject: "ភាសាខ្មែរ", time: "13:00 > 14:00" }, { subject: "អង់គ្លេស", time: "14:00 > 15:00" }, { subject: "ផែនដីវិទ្យា", time: "15:00 > 16:00" }, { subject: "ភូមិវិទ្យា", time: "16:00 > 17:00" }] },
+            3: { dayKh: "ថ្ងៃពុធ", classes: [{ subject: "គណិតវិទ្យា", time: "13:00 > 15:00" }, { subject: "គីមីវិទ្យា", time: "15:00 > 16:00" }, { subject: "ជីវវិទ្យា", time: "16:00 > 17:00" }] },
+            4: { dayKh: "ថ្ងៃព្រហស្បតិ៍", classes: [{ subject: "ភាសាខ្មែរ", time: "13:00 > 15:00" }, { subject: "ភូមិវិទ្យា", time: "15:00 > 16:00" }, { subject: "ជីវវិទ្យា", time: "16:00 > 17:00" }] },
+            5: { dayKh: "ថ្ងៃសុក្រ", classes: [{ subject: "ភាសាខ្មែរ", time: "13:00 > 15:00" }, { subject: "សីលធម៌ ពលរដ្ឋ", time: "15:00 > 16:00" }, { subject: "រូបវិទ្យា", time: "16:00 > 17:00" }] },
+            6: { dayKh: "ថ្ងៃសៅរ៍", classes: [{ subject: "ភូមិវិទ្យា", time: "13:00 > 14:00" }, { subject: "គណិតវិទ្យា", time: "14:00 > 16:00" }] },
+            0: { dayKh: "ថ្ងៃអាទិត្យ", classes: [{ subject: "រីករាយថ្ងៃឈប់សម្រាក!", time: "ពេញមួយថ្ងៃ" }] }
+        };
+
+        // DOM Elements
+        const khmerDayEl = document.getElementById('khmer-day');
+        const liveDateEl = document.getElementById('live-date');
+        const liveTimeEl = document.getElementById('live-time');
+        const scheduleListEl = document.getElementById('schedule-list');
+        const nextDayBtn = document.getElementById('next-day-btn');
+        const prevDayBtn = document.getElementById('prev-day-btn');
+        const homeBtn = document.getElementById('home-btn'); 
+        const onlineCounterEl = document.getElementById('online-counter');
+        const totalCounterEl = document.getElementById('total-counter');
+        const notificationBoxEl = document.getElementById('notification-box'); // NEW
+
+        let realDayIndex = null;
+        let displayDayIndex = null;
+        let overrideTimer = null;
+
+
         // --- Utility Functions ---
 
-        // Global utility to safely handle element class manipulation for transitions
         function applyTransition(element, contentCallback) {
             if (!element) return;
             element.classList.add('fade-out');
@@ -186,39 +270,6 @@
             }, 800);
         }
 
-        // --- Data and State ---
-
-        // Key: Day of the week (0=Sunday, 1=Monday, ..., 6=Saturday)
-        const SCHEDULE_DATA = {
-            1: { dayKh: "ថ្ងៃចន្ទ", classes: [{ subject: "អង់គ្លេស", time: "13:00 > 14:00" }, { subject: "ប្រវត្តិវិទ្យា", time: "14:00 > 15:00" }, { subject: "គណិតវិទ្យា", time: "15:00 > 17:00" }] },
-            2: { dayKh: "ថ្ងៃអង្គារ", classes: [{ subject: "ភាសាខ្មែរ", time: "13:00 > 14:00" }, { subject: "អង់គ្លេស", time: "14:00 > 15:00" }, { subject: "ផែនដីវិទ្យា", time: "15:00 > 16:00" }, { subject: "ភូមិវិទ្យា", time: "16:00 > 17:00" }] },
-            3: { dayKh: "ថ្ងៃពុធ", classes: [{ subject: "គណិតវិទ្យា", time: "13:00 > 15:00" }, { subject: "គីមីវិទ្យា", time: "15:00 > 16:00" }, { subject: "ជីវវិទ្យា", time: "16:00 > 17:00" }] },
-            4: { dayKh: "ថ្ងៃព្រហស្បតិ៍", classes: [{ subject: "ភាសាខ្មែរ", time: "13:00 > 15:00" }, { subject: "ភូមិវិទ្យា", time: "15:00 > 16:00" }, { subject: "ជីវវិទ្យា", time: "16:00 > 17:00" }] },
-            5: { dayKh: "ថ្ងៃសុក្រ", classes: [{ subject: "ភាសាខ្មែរ", time: "13:00 > 15:00" }, { subject: "សីលធម៌ ពលរដ្ឋ", time: "15:00 > 16:00" }, { subject: "រូបវិទ្យា", time: "16:00 > 17:00" }] },
-            6: { dayKh: "ថ្ងៃសៅរ៍", classes: [{ subject: "ភូមិវិទ្យា", time: "13:00 > 14:00" }, { subject: "គណិតវិទ្យា", time: "14:00 > 16:00" }] },
-            0: { dayKh: "ថ្ងៃអាទិត្យ", classes: [{ subject: "រីករាយថ្ងៃឈប់សម្រាក!", time: "ពេញមួយថ្ងៃ" }] }
-        };
-
-        const khmerDayEl = document.getElementById('khmer-day');
-        const liveDateEl = document.getElementById('live-date');
-        const liveTimeEl = document.getElementById('live-time');
-        const scheduleListEl = document.getElementById('schedule-list');
-        const nextDayBtn = document.getElementById('next-day-btn');
-        const prevDayBtn = document.getElementById('prev-day-btn');
-        const homeBtn = document.getElementById('home-btn'); // New element
-        const creatorTextEl = document.getElementById('creator-text');
-        const creatorContainerEl = document.getElementById('creator-text-container');
-
-        let realDayIndex = null;
-        let displayDayIndex = null; // Day currently being displayed (can be overriden)
-        let overrideTimer = null;
-
-
-        // --- Schedule Rendering Logic ---
-
-        /**
-         * Renders the schedule list HTML with individual item animations.
-         */
         function renderScheduleList(classes, animate = true) {
             scheduleListEl.innerHTML = '';
             
@@ -227,7 +278,6 @@
                 subjectEl.className = 'bg-gray-100 p-4 rounded-xl shadow-lg flex justify-between items-center text-gray-800 border-l-8 border-yellow-500 hover:shadow-xl transition duration-300 transform hover:scale-[1.01]';
                 
                 if (animate) {
-                    // Apply staggered entrance animation
                     subjectEl.classList.add('subject-item');
                     subjectEl.style.animationDelay = `${index * 0.1}s`;
                 }
@@ -246,32 +296,23 @@
             });
         }
         
-        /**
-         * Renders the schedule UI based on a specific day index.
-         */
         function renderSchedule(dayIndex, animate = true) {
             const todaySchedule = SCHEDULE_DATA[dayIndex];
             
-            // Update Khmer Day text
             if (animate) {
                 applyTransition(khmerDayEl, () => {
                     khmerDayEl.textContent = todaySchedule.dayKh;
                 });
                 
-                // Render classes list
                 applyTransition(scheduleListEl, () => {
                     renderScheduleList(todaySchedule.classes, true);
                 });
             } else {
-                // No transition, simple update
                 khmerDayEl.textContent = todaySchedule.dayKh;
                 renderScheduleList(todaySchedule.classes, false);
             }
         }
 
-        /**
-         * Fetches the current time in Cambodia (Asia/Phnom_Penh) and updates the UI.
-         */
         function updateLiveTimeAndDay() {
             const now = new Date();
             const timeZone = 'Asia/Phnom_Penh';
@@ -282,96 +323,278 @@
             const fullDate = new Intl.DateTimeFormat('km-KH', optionsDate).format(now);
             const liveTime = new Intl.DateTimeFormat('en-US', optionsTime).format(now);
             
-            const newRealDayIndex = now.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
+            const newRealDayIndex = now.getDay();
 
-            // 1. Check if the real day has changed (and clear override if so)
             if (realDayIndex === null || realDayIndex !== newRealDayIndex) {
                 realDayIndex = newRealDayIndex;
                 
-                // Clear any manual override, as the actual day has changed
                 clearTimeout(overrideTimer);
-                // Only reset if displayDayIndex was never set (first load) or if it was currently showing the old real day
                 if (displayDayIndex === null || displayDayIndex === newRealDayIndex) {
                     displayDayIndex = realDayIndex;
-                    renderSchedule(displayDayIndex, true); // Render new real day with animation
+                    renderSchedule(displayDayIndex, true); 
                 }
             }
 
-            // 2. Initialize displayDayIndex on first run
             if (displayDayIndex === null) {
                 displayDayIndex = realDayIndex;
-                renderSchedule(displayDayIndex, false); // Initial render without animation
+                renderSchedule(displayDayIndex, false);
             }
             
-            // 3. Update Live Time and Date (Always update)
             liveDateEl.textContent = fullDate.trim(); 
             liveTimeEl.textContent = liveTime;
-            
-            // 4. Update the displayed day name (in case only time updates)
             khmerDayEl.textContent = SCHEDULE_DATA[displayDayIndex].dayKh;
         }
 
-        // --- Day Cycling Logic ---
-
         function cycleDay(direction) {
             
-            // If the current display is the real day, start the override from the real day
             if (overrideTimer === null || displayDayIndex === realDayIndex) {
                 displayDayIndex = realDayIndex;
             }
 
-            // Clear existing timer to extend the override period
             clearTimeout(overrideTimer);
 
             let nextIndex = displayDayIndex + direction;
 
-            // Handle wrap around (0-6)
             if (nextIndex > 6) nextIndex = 0;
             if (nextIndex < 0) nextIndex = 6;
 
             displayDayIndex = nextIndex;
             
-            // Force UI update
-            renderSchedule(displayDayIndex, true); // Render with animation
+            renderSchedule(displayDayIndex, true);
 
-            // Set 20 second timeout to revert to real day
             overrideTimer = setTimeout(() => {
-                displayDayIndex = realDayIndex; // Revert
-                renderSchedule(realDayIndex, true); // Re-render real day with animation
+                displayDayIndex = realDayIndex;
+                renderSchedule(realDayIndex, true);
                 overrideTimer = null;
             }, 20000); // 20 seconds
         }
 
-        // --- Home Button Logic ---
         function goToRealDay() {
             if (overrideTimer) {
                 clearTimeout(overrideTimer);
                 overrideTimer = null;
             }
             if (displayDayIndex !== realDayIndex) {
-                displayDayIndex = realDayIndex; // Revert
-                renderSchedule(realDayIndex, true); // Re-render real day with animation
+                displayDayIndex = realDayIndex;
+                renderSchedule(realDayIndex, true);
             }
         }
 
-        // --- Welcome Screen Logic ---
+        // --- Notification Functions ---
+
+        function showNotification() {
+            if (!notificationBoxEl) return;
+            
+            // 1. Show the box (remove hidden class)
+            notificationBoxEl.classList.remove('hidden');
+            
+            // 2. Slide In (remove the translation class)
+            // Use a small delay (10ms) to ensure 'hidden' removal processes before transition
+            setTimeout(() => {
+                notificationBoxEl.classList.remove('translate-x-full'); 
+            }, 10); 
+
+            // 3. Hide after NOTIFICATION_DURATION (6 seconds now)
+            setTimeout(() => {
+                // Slide Out (add the translation class)
+                notificationBoxEl.classList.add('translate-x-full');
+
+                // 4. Hide completely after the slide-out transition finishes (500ms duration from CSS)
+                setTimeout(() => {
+                    notificationBoxEl.classList.add('hidden');
+                }, 500); 
+                
+            }, NOTIFICATION_DURATION);
+        }
+
+        function startNotificationLoop() {
+            // Show immediately after welcome
+            showNotification(); 
+
+            // Start the loop for every 360 seconds (6 minutes)
+            setInterval(showNotification, NOTIFICATION_INTERVAL);
+        }
+
+        // --- Welcome Initialization ---
 
         function initializeWelcome() {
             const overlay = document.getElementById('welcome-overlay');
             const text = document.getElementById('welcome-text');
 
-            // Show text with animation
             text.classList.add('welcome-active');
 
             setTimeout(() => {
-                // Fade out overlay after 3 seconds
                 overlay.style.opacity = '0';
                 
-                // Remove overlay from DOM after fade-out
                 setTimeout(() => {
                     overlay.remove();
-                }, 1000); // Duration of opacity transition
-            }, 3000); 
+                    // Start the notification loop once welcome is gone
+                    startNotificationLoop(); 
+                }, 1000); // Wait for opacity transition to finish
+            }, 3000); // Welcome text display time
+        }
+        
+        // --- Firebase Initialization and Presence Tracking ---
+
+        async function initializeFirebase() {
+            // Enable Firestore debug logging (Helpful for diagnosing permission errors)
+            setLogLevel('debug'); 
+
+            if (Object.keys(firebaseConfig).length === 0) {
+                console.error("Firebase configuration is missing.");
+                return;
+            }
+
+            try {
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                // 1. Attempt Sign In
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken).catch(e => {
+                        console.error("Custom token sign in failed, falling back to anonymous:", e);
+                        return signInAnonymously(auth);
+                    });
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                // 2. Set up Auth State Listener (Crucial for getting UID and starting presence tracking)
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        userId = user.uid;
+                    } else {
+                        // Fallback for anonymous users
+                        userId = generateAnonId(); 
+                    }
+                    
+                    isAuthReady = true;
+                    console.log("Auth Ready. User ID:", userId);
+
+                    // Once authenticated, start presence tracking
+                    if (db) {
+                        trackPresence();
+                    } else {
+                        console.error("Firestore DB is not initialized.");
+                    }
+                });
+                
+            } catch (e) {
+                console.error("Firebase initialization failed:", e);
+            }
+        }
+
+
+        function trackPresence() {
+            if (!db || !userId) return;
+
+            console.log("Starting presence tracking for:", userId);
+
+            // Path components for the required public collection structure:
+            // /artifacts/{appId}/public/data/{collection_name} (5 segments - Odd)
+            const PUBLIC_BASE_PATH = ["artifacts", appId, "public", "data"]; // 4 segments: C/D/C/D
+
+            // --- 1. Real-time Online Status ---
+            // Fix: Use 5 segments (C/D/C/D/C) for the collection reference
+            const onlinePresenceRef = collection(db, ...PUBLIC_BASE_PATH, "online_status");
+            const currentUserOnlineDocRef = doc(onlinePresenceRef, userId);
+
+            // Function to update public online status
+            const setOnline = async (isOnline) => {
+                try {
+                    if (isOnline) {
+                        // Set/Update last_seen to show they are currently active
+                        await setDoc(currentUserOnlineDocRef, {
+                            last_seen: serverTimestamp(),
+                            user_id: userId
+                        });
+                    } else {
+                        // When leaving, update last_seen_offline but keep the doc for total count
+                        await updateDoc(currentUserOnlineDocRef, {
+                            last_seen_offline: serverTimestamp(),
+                        }).catch(err => {
+                            if (err.code !== 'not-found') {
+                                console.warn("Failed to update status on close:", err.message);
+                            }
+                        }); 
+                    }
+                } catch (e) {
+                    console.error("Failed to update public online status:", e);
+                }
+            };
+
+            // Update when opening/focusing the window (Heartbeat)
+            setOnline(true);
+            window.addEventListener('focus', () => setOnline(true));
+            // Set heartbeat every 2 minutes to keep status 'fresh'
+            setInterval(() => setOnline(true), 2 * 60 * 1000); 
+
+            // Update when closing/leaving the window
+            window.addEventListener('beforeunload', () => setOnline(false));
+
+
+            // --- 2. Total Users (Using a public collection to track unique IDs) ---
+            // Fix: Use 6 segments (C/D/C/D/C/D) for the document reference
+            const statsDocRef = doc(db, ...PUBLIC_BASE_PATH, "stats", "user_count");
+            
+            // Update the total unique visitors count field for this user
+            const updateStats = async () => {
+                try {
+                    const updateData = {};
+                    // Use the unique user ID as a key in the map to track total users
+                    updateData[`total_users.${userId}`] = serverTimestamp();
+                    
+                    // Try to update/create the document, merging with existing data
+                    await setDoc(statsDocRef, updateData, { merge: true });
+                } catch (error) {
+                    console.error("Error setting/updating total user count:", error);
+                }
+            };
+            updateStats();
+
+
+            // --- 3. Listen for Online Count (Active within the last 5 minutes) ---
+            onSnapshot(onlinePresenceRef, (snapshot) => {
+                let onlineCount = 0;
+                const cutoff = Date.now() - USER_ACTIVITY_TIMEOUT; 
+
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const lastSeenTimestamp = data.last_seen;
+
+                    if (lastSeenTimestamp) {
+                        // Convert Firestore Timestamp to JS Date object for comparison
+                        const lastSeenTime = lastSeenTimestamp.toDate().getTime();
+
+                        // Check if active in the last 5 minutes (USER_ACTIVITY_TIMEOUT)
+                        if (lastSeenTime > cutoff) {
+                            onlineCount++;
+                        }
+                    }
+                });
+                
+                onlineCounterEl.textContent = onlineCount;
+                console.log("Online count updated:", onlineCount);
+            }, (error) => {
+                console.error("Error listening to online presence (Check Security Rules!):", error);
+            });
+
+            // --- 4. Listen for TOTAL UNIQUE users ---
+            onSnapshot(statsDocRef, (docSnapshot) => {
+                if (docSnapshot.exists()) {
+                    const data = docSnapshot.data();
+                    // Total users is the count of unique keys in the 'total_users' map
+                    const totalUsers = data.total_users ? Object.keys(data.total_users).length : 0;
+                    totalCounterEl.textContent = totalUsers;
+                    console.log("Total count updated:", totalUsers);
+                } else {
+                    totalCounterEl.textContent = 1; // If the doc doesn't exist, this user is the first
+                    console.log("Total count updated: 1 (initial visitor)");
+                }
+            }, (error) => {
+                console.error("Error listening to total users (Check Security Rules!):", error);
+            });
         }
 
         // --- Initialization ---
@@ -384,12 +607,15 @@
             // Setup Home button
             homeBtn.addEventListener('click', goToRealDay);
 
-            // Run initial update and set interval
+            // Run initial update and set interval for time/day
             updateLiveTimeAndDay();
             setInterval(updateLiveTimeAndDay, 1000); 
             
             // Show welcome message
             initializeWelcome();
+
+            // Initialize Firebase and start presence tracking after DOM is ready
+            initializeFirebase();
         });
 
     </script>

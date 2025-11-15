@@ -100,58 +100,6 @@
         </div>
     </div>
 
-    <!-- Notification Alert System 1 (Teacher Alert) -->
-    <div id="notification-box-1" class="fixed top-4 right-4 z-40 p-4 shadow-2xl rounded-2xl bg-red-600/95 transform translate-x-full transition-all duration-500 ease-out border-4 border-yellow-300 hidden max-w-md">
-        <div class="flex items-center space-x-6">
-            <!-- Notification Image -->
-            <img 
-                src="https://files.catbox.moe/jxpg0v.jpeg" 
-                onerror="this.onerror=null;this.src='https://placehold.co/60x60/FF0000/FFFFFF?text=PIC';" 
-                class="w-20 h-20 rounded-lg object-cover border-2 border-white shadow-lg flex-shrink-0" 
-                alt="Teacher Alert">
-            
-            <div>
-                <!-- Main Alert Text (text-3xl) -->
-                <p class="text-white text-3xl font-bold">ប្រយ័ត្ន! 🧑‍🏫</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Notification Alert System 2 (New Alert - Image requested by user) -->
-    <div id="notification-box-2" class="fixed top-4 right-4 z-40 p-4 shadow-2xl rounded-2xl bg-blue-600/95 transform translate-x-full transition-all duration-500 ease-out border-4 border-yellow-300 hidden max-w-md">
-        <div class="flex items-center space-x-6">
-            <!-- Notification Image (New Image URL) -->
-            <img 
-                src="https://files.catbox.moe/3zr8jb.jpeg" 
-                onerror="this.onerror=null;this.src='https://placehold.co/60x60/0000FF/FFFFFF?text=NEW+PIC';" 
-                class="w-20 h-20 rounded-lg object-cover border-2 border-white shadow-lg flex-shrink-0" 
-                alt="New Alert">
-            
-            <div>
-                <!-- Main Alert Text (text-3xl) -->
-                <p class="text-white text-3xl font-bold">ជូនដំណឹង! 🚨</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Notification Alert System 3 (User requested duplicate alert) -->
-    <div id="notification-box-3" class="fixed top-4 right-4 z-40 p-4 shadow-2xl rounded-2xl bg-green-600/95 transform translate-x-full transition-all duration-500 ease-out border-4 border-yellow-300 hidden max-w-md">
-        <div class="flex items-center space-x-6">
-            <!-- Notification Image (Reusing the image link) -->
-            <img 
-                src="https://files.catbox.moe/3zr8jb.jpeg" 
-                onerror="this.onerror=null;this.src='https://placehold.co/60x60/00FF00/FFFFFF?text=PIC+3';" 
-                class="w-20 h-20 rounded-lg object-cover border-2 border-white shadow-lg flex-shrink-0" 
-                alt="New Alert 2">
-            
-            <div>
-                <!-- Main Alert Text (text-3xl) -->
-                <p class="text-white text-3xl font-bold">ដំណឹងថ្មី! 🎉</p>
-            </div>
-        </div>
-    </div>
-
-
     <!-- Main Content Wrapper -->
     <div class="w-full max-w-4xl p-4 md:p-8 pt-10">
 
@@ -200,9 +148,9 @@
                 </div>
             </div>
 
-            <!-- User ID Display (New Feature) -->
+            <!-- User ID Display (Text changed from 'លេខសម្គាល់' to 'Account ID') -->
             <div class="mb-6 text-lg font-bold text-gray-700 bg-yellow-100 p-2 rounded-lg shadow-inner">
-                លេខសម្គាល់: <span id="display-user-id" class="text-red-600 font-extrabold">...</span>
+                Account ID: <span id="display-user-id" class="text-red-600 font-extrabold">...</span>
             </div>
 
 
@@ -253,9 +201,7 @@
         let isAuthReady = false; 
         const USER_ACTIVITY_TIMEOUT = 5 * 60 * 1000; // 5 minutes (300000ms)
         
-        // Notification timing constants
-        const NOTIFICATION_DURATION = 10000; // 10 seconds (Display duration) - INCREASED FROM 7000ms
-        const NOTIFICATION_INTERVAL = 60000; // 60 seconds (1 minute) - Time between notifications 
+        // Removed NOTIFICATION_DURATION and NOTIFICATION_INTERVAL
 
         // Global Variables from Canvas Environment
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
@@ -296,17 +242,15 @@
         const homeBtn = document.getElementById('home-btn'); 
         const onlineCounterEl = document.getElementById('online-counter');
         const totalCounterEl = document.getElementById('total-counter');
-        const displayUserIdEl = document.getElementById('display-user-id'); // NEW
-        const notificationBox1El = document.getElementById('notification-box-1'); // Existing
-        const notificationBox2El = document.getElementById('notification-box-2'); // Existing
-        const notificationBox3El = document.getElementById('notification-box-3'); // NEW
-        const notificationBoxes = [notificationBox1El, notificationBox2El, notificationBox3El]; // UPDATED
+        const displayUserIdEl = document.getElementById('display-user-id');
+        // Removed notification box element lookups (notificationBox1El, notificationBox2El, etc.)
+        // Removed notificationBoxes array
 
 
         let realDayIndex = null;
         let displayDayIndex = null;
         let overrideTimer = null;
-        let currentNotificationIndex = 0;
+        // Removed currentNotificationIndex
 
 
         // --- Utility Functions ---
@@ -436,55 +380,8 @@
             }
         }
 
-        // --- Notification Functions ---
-        function hideAllNotifications() {
-            notificationBoxes.forEach(box => {
-                if (box) {
-                    box.classList.add('translate-x-full');
-                    setTimeout(() => {
-                        box.classList.add('hidden');
-                    }, 500); // Wait for transition
-                }
-            });
-        }
-
-        function showNotificationCycle() {
-            const currentBox = notificationBoxes[currentNotificationIndex];
-            if (!currentBox) return;
-
-            hideAllNotifications(); // Ensure all others are hidden/sliding out
-
-            // 1. Show the box (remove hidden class)
-            currentBox.classList.remove('hidden');
-            
-            // 2. Slide In (remove the translation class)
-            setTimeout(() => {
-                currentBox.classList.remove('translate-x-full'); 
-            }, 10); 
-
-            // 3. Hide after NOTIFICATION_DURATION (now 10 seconds)
-            setTimeout(() => {
-                // Slide Out (add the translation class)
-                currentBox.classList.add('translate-x-full');
-
-                // 4. Hide completely after the slide-out transition finishes (500ms duration from CSS)
-                setTimeout(() => {
-                    currentBox.classList.add('hidden');
-                    
-                    // Cycle to the next notification index
-                    currentNotificationIndex = (currentNotificationIndex + 1) % notificationBoxes.length;
-                }, 500); 
-                
-            }, NOTIFICATION_DURATION);
-        }
-
-        function startNotificationLoop() {
-            // Show immediately after welcome
-            showNotificationCycle(); 
-
-            // Start the loop for every NOTIFICATION_INTERVAL
-            setInterval(showNotificationCycle, NOTIFICATION_INTERVAL);
-        }
+        // --- Notification Functions (REMOVED) ---
+        // hideAllNotifications(), showNotificationCycle(), startNotificationLoop() have been removed.
 
         // --- Welcome Initialization ---
 
@@ -499,8 +396,7 @@
                 
                 setTimeout(() => {
                     overlay.remove();
-                    // Start the notification loop once welcome is gone
-                    startNotificationLoop(); 
+                    // Removed: startNotificationLoop(); 
                 }, 1000); // Wait for opacity transition to finish
             }, 3000); // Welcome text display time
         }
@@ -540,14 +436,14 @@
                         userId = generateAnonId(); 
                     }
                     
-                    // Generate and display the formatted ID
+                    // Generate and display the formatted ID IMMEDIATELY after getting userId
                     displayUserId = formatDisplayId(userId);
                     displayUserIdEl.textContent = displayUserId;
 
                     isAuthReady = true;
                     console.log("Auth Ready. User ID:", userId, "Display ID:", displayUserId);
 
-                    // Once authenticated, start presence tracking
+                    // Once authenticated, start presence tracking to update the counters
                     if (db) {
                         trackPresence();
                     } else {

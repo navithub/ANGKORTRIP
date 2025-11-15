@@ -95,28 +95,58 @@
 
     <!-- Welcome Overlay -->
     <div id="welcome-overlay" class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 transition-opacity duration-1000 ease-in-out">
-        <!-- UPDATED WELCOME TEXT -->
         <div id="welcome-text" class="text-5xl md:text-7xl font-black text-yellow-400 opacity-0" style="text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);">
             ខំរៀនណាក្មេងតូច🥳
         </div>
     </div>
 
-    <!-- Notification Alert System (New Element) -->
-    <!-- Updated for larger size (max-w-md) and bigger content -->
-    <div id="notification-box" class="fixed top-4 right-4 z-40 p-4 shadow-2xl rounded-2xl bg-red-600/95 transform translate-x-full transition-all duration-500 ease-out border-4 border-yellow-300 hidden max-w-md">
-        <!-- UPDATED SPACE-X-4 to SPACE-x-6 for better spacing with large icon -->
+    <!-- Notification Alert System 1 (Teacher Alert) -->
+    <div id="notification-box-1" class="fixed top-4 right-4 z-40 p-4 shadow-2xl rounded-2xl bg-red-600/95 transform translate-x-full transition-all duration-500 ease-out border-4 border-yellow-300 hidden max-w-md">
         <div class="flex items-center space-x-6">
-            <!-- Notification Image (Larger: w-20 h-20) -->
-            <img id="notification-image" 
+            <!-- Notification Image -->
+            <img 
                 src="https://files.catbox.moe/jxpg0v.jpeg" 
                 onerror="this.onerror=null;this.src='https://placehold.co/60x60/FF0000/FFFFFF?text=PIC';" 
                 class="w-20 h-20 rounded-lg object-cover border-2 border-white shadow-lg flex-shrink-0" 
                 alt="Teacher Alert">
             
             <div>
-                <!-- Main Alert Text (UPDATED: text-2xl to text-3xl) -->
+                <!-- Main Alert Text (text-3xl) -->
                 <p class="text-white text-3xl font-bold">ប្រយ័ត្ន! 🧑‍🏫</p>
-                <!-- Removed: <p class="text-yellow-300 text-sm font-medium">គ្រូអាច Online!</p> -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Alert System 2 (New Alert - Image requested by user) -->
+    <div id="notification-box-2" class="fixed top-4 right-4 z-40 p-4 shadow-2xl rounded-2xl bg-blue-600/95 transform translate-x-full transition-all duration-500 ease-out border-4 border-yellow-300 hidden max-w-md">
+        <div class="flex items-center space-x-6">
+            <!-- Notification Image (New Image URL) -->
+            <img 
+                src="https://files.catbox.moe/3zr8jb.jpeg" 
+                onerror="this.onerror=null;this.src='https://placehold.co/60x60/0000FF/FFFFFF?text=NEW+PIC';" 
+                class="w-20 h-20 rounded-lg object-cover border-2 border-white shadow-lg flex-shrink-0" 
+                alt="New Alert">
+            
+            <div>
+                <!-- Main Alert Text (text-3xl) -->
+                <p class="text-white text-3xl font-bold">ជូនដំណឹង! 🚨</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Alert System 3 (User requested duplicate alert) -->
+    <div id="notification-box-3" class="fixed top-4 right-4 z-40 p-4 shadow-2xl rounded-2xl bg-green-600/95 transform translate-x-full transition-all duration-500 ease-out border-4 border-yellow-300 hidden max-w-md">
+        <div class="flex items-center space-x-6">
+            <!-- Notification Image (Reusing the image link) -->
+            <img 
+                src="https://files.catbox.moe/3zr8jb.jpeg" 
+                onerror="this.onerror=null;this.src='https://placehold.co/60x60/00FF00/FFFFFF?text=PIC+3';" 
+                class="w-20 h-20 rounded-lg object-cover border-2 border-white shadow-lg flex-shrink-0" 
+                alt="New Alert 2">
+            
+            <div>
+                <!-- Main Alert Text (text-3xl) -->
+                <p class="text-white text-3xl font-bold">ដំណឹងថ្មី! 🎉</p>
             </div>
         </div>
     </div>
@@ -156,17 +186,25 @@
                 <span id="live-date">...</span> | <span id="live-time">...</span>
             </div>
 
-            <!-- Presence Counters -->
-            <div class="flex justify-center items-center space-x-6 mb-6 text-xl">
-                <div title="អ្នកកំពុង Online" class="flex items-center space-x-2 text-green-600 font-bold live-text">
-                    <span class="text-2xl">●</span>
+            <!-- Presence Counters (Updated to use Eye and People icons) -->
+            <div class="flex justify-center items-center space-x-6 mb-4 text-xl">
+                <!-- Online/Viewing Counter -->
+                <div title="អ្នកកំពុងមើល" class="flex items-center space-x-2 text-green-600 font-bold live-text">
+                    <span class="text-3xl">👀</span> <!-- Eye Icon -->
                     <span id="online-counter">0</span>
                 </div>
-                <div title="អ្នកចូលមើលសរុប" class="flex items-center space-x-2 text-blue-600 font-bold">
-                    <span class="text-2xl">■</span>
+                <!-- Total Visitors Counter -->
+                <div title="អ្នកចូលមើលទាំងអស់" class="flex items-center space-x-2 text-blue-600 font-bold">
+                    <span class="text-2xl">👥</span> <!-- People Icon -->
                     <span id="total-counter">0</span>
                 </div>
             </div>
+
+            <!-- User ID Display (New Feature) -->
+            <div class="mb-6 text-lg font-bold text-gray-700 bg-yellow-100 p-2 rounded-lg shadow-inner">
+                លេខសម្គាល់: <span id="display-user-id" class="text-red-600 font-extrabold">...</span>
+            </div>
+
 
             <!-- Schedule Title -->
             <h2 class="text-2xl md:text-3xl font-bold text-green-600 mb-6 border-b-2 pb-2 border-green-300">
@@ -210,20 +248,32 @@
         let app = null;
         let auth = null;
         let db = null;
-        let userId = null;
+        let userId = null; // The unique ID used in Firestore (can be UID or long anon ID)
+        let displayUserId = null; // The short, formatted ID shown to the user
         let isAuthReady = false; 
         const USER_ACTIVITY_TIMEOUT = 5 * 60 * 1000; // 5 minutes (300000ms)
         
         // Notification timing constants
-        const NOTIFICATION_DURATION = 6000; // 6 seconds (UPDATED from 3000)
-        const NOTIFICATION_INTERVAL = 360000; // 360 seconds (6 minutes)
+        const NOTIFICATION_DURATION = 10000; // 10 seconds (Display duration) - INCREASED FROM 7000ms
+        const NOTIFICATION_INTERVAL = 60000; // 60 seconds (1 minute) - Time between notifications 
 
         // Global Variables from Canvas Environment
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
+        // --- CUSTOM ID GENERATION ---
         const generateAnonId = () => 'anon-' + Math.random().toString(36).substring(2, 9) + Date.now();
+        
+        // Function to create the formatted display ID (ID926XXXX)
+        function formatDisplayId(uniqueId) {
+            // Use the last 4 characters of the unique ID (either UID or anon ID)
+            const uniquePart = uniqueId.slice(-4).toUpperCase();
+            // Ensure the result is always ID926 followed by 4 chars/digits
+            return `ID926${uniquePart}`;
+        }
+        // --- END CUSTOM ID GENERATION ---
+
 
         // Key: Day of the week (0=Sunday, 1=Monday, ..., 6=Saturday)
         const SCHEDULE_DATA = {
@@ -246,11 +296,17 @@
         const homeBtn = document.getElementById('home-btn'); 
         const onlineCounterEl = document.getElementById('online-counter');
         const totalCounterEl = document.getElementById('total-counter');
-        const notificationBoxEl = document.getElementById('notification-box'); // NEW
+        const displayUserIdEl = document.getElementById('display-user-id'); // NEW
+        const notificationBox1El = document.getElementById('notification-box-1'); // Existing
+        const notificationBox2El = document.getElementById('notification-box-2'); // Existing
+        const notificationBox3El = document.getElementById('notification-box-3'); // NEW
+        const notificationBoxes = [notificationBox1El, notificationBox2El, notificationBox3El]; // UPDATED
+
 
         let realDayIndex = null;
         let displayDayIndex = null;
         let overrideTimer = null;
+        let currentNotificationIndex = 0;
 
 
         // --- Utility Functions ---
@@ -381,27 +437,42 @@
         }
 
         // --- Notification Functions ---
+        function hideAllNotifications() {
+            notificationBoxes.forEach(box => {
+                if (box) {
+                    box.classList.add('translate-x-full');
+                    setTimeout(() => {
+                        box.classList.add('hidden');
+                    }, 500); // Wait for transition
+                }
+            });
+        }
 
-        function showNotification() {
-            if (!notificationBoxEl) return;
-            
+        function showNotificationCycle() {
+            const currentBox = notificationBoxes[currentNotificationIndex];
+            if (!currentBox) return;
+
+            hideAllNotifications(); // Ensure all others are hidden/sliding out
+
             // 1. Show the box (remove hidden class)
-            notificationBoxEl.classList.remove('hidden');
+            currentBox.classList.remove('hidden');
             
             // 2. Slide In (remove the translation class)
-            // Use a small delay (10ms) to ensure 'hidden' removal processes before transition
             setTimeout(() => {
-                notificationBoxEl.classList.remove('translate-x-full'); 
+                currentBox.classList.remove('translate-x-full'); 
             }, 10); 
 
-            // 3. Hide after NOTIFICATION_DURATION (6 seconds now)
+            // 3. Hide after NOTIFICATION_DURATION (now 10 seconds)
             setTimeout(() => {
                 // Slide Out (add the translation class)
-                notificationBoxEl.classList.add('translate-x-full');
+                currentBox.classList.add('translate-x-full');
 
                 // 4. Hide completely after the slide-out transition finishes (500ms duration from CSS)
                 setTimeout(() => {
-                    notificationBoxEl.classList.add('hidden');
+                    currentBox.classList.add('hidden');
+                    
+                    // Cycle to the next notification index
+                    currentNotificationIndex = (currentNotificationIndex + 1) % notificationBoxes.length;
                 }, 500); 
                 
             }, NOTIFICATION_DURATION);
@@ -409,10 +480,10 @@
 
         function startNotificationLoop() {
             // Show immediately after welcome
-            showNotification(); 
+            showNotificationCycle(); 
 
-            // Start the loop for every 360 seconds (6 minutes)
-            setInterval(showNotification, NOTIFICATION_INTERVAL);
+            // Start the loop for every NOTIFICATION_INTERVAL
+            setInterval(showNotificationCycle, NOTIFICATION_INTERVAL);
         }
 
         // --- Welcome Initialization ---
@@ -469,14 +540,18 @@
                         userId = generateAnonId(); 
                     }
                     
+                    // Generate and display the formatted ID
+                    displayUserId = formatDisplayId(userId);
+                    displayUserIdEl.textContent = displayUserId;
+
                     isAuthReady = true;
-                    console.log("Auth Ready. User ID:", userId);
+                    console.log("Auth Ready. User ID:", userId, "Display ID:", displayUserId);
 
                     // Once authenticated, start presence tracking
                     if (db) {
                         trackPresence();
                     } else {
-                        console.error("Firestore DB is not initialized.");
+                        console.error("Firestore DB is not initialized. Cannot track presence.");
                     }
                 });
                 
@@ -496,7 +571,6 @@
             const PUBLIC_BASE_PATH = ["artifacts", appId, "public", "data"]; // 4 segments: C/D/C/D
 
             // --- 1. Real-time Online Status ---
-            // Fix: Use 5 segments (C/D/C/D/C) for the collection reference
             const onlinePresenceRef = collection(db, ...PUBLIC_BASE_PATH, "online_status");
             const currentUserOnlineDocRef = doc(onlinePresenceRef, userId);
 
@@ -507,7 +581,8 @@
                         // Set/Update last_seen to show they are currently active
                         await setDoc(currentUserOnlineDocRef, {
                             last_seen: serverTimestamp(),
-                            user_id: userId
+                            user_id: userId,
+                            display_id: displayUserId // Store the display ID too, just in case
                         });
                     } else {
                         // When leaving, update last_seen_offline but keep the doc for total count
@@ -535,7 +610,6 @@
 
 
             // --- 2. Total Users (Using a public collection to track unique IDs) ---
-            // Fix: Use 6 segments (C/D/C/D/C/D) for the document reference
             const statsDocRef = doc(db, ...PUBLIC_BASE_PATH, "stats", "user_count");
             
             // Update the total unique visitors count field for this user
@@ -575,7 +649,7 @@
                 });
                 
                 onlineCounterEl.textContent = onlineCount;
-                console.log("Online count updated:", onlineCount);
+                console.log("Online count updated (viewers):", onlineCount);
             }, (error) => {
                 console.error("Error listening to online presence (Check Security Rules!):", error);
             });

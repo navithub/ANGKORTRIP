@@ -23,6 +23,22 @@
             position: relative;
         }
 
+        /* Fixed Navigation Icons */
+        .fixed-icon {
+            position: fixed;
+            top: 20px;
+            font-size: 2.5rem;
+            cursor: pointer;
+            z-index: 50; /* Above main content */
+            transition: transform 0.2s, opacity 0.3s;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+        .fixed-icon:hover {
+            transform: scale(1.1);
+        }
+        #nav-icon-container { right: 20px; }
+        #owner-icon-container { left: 20px; }
+
         /* --- 1. Space Background Animations (Stars & Comet) --- */
         /* Animation for twinkling stars */
         @keyframes twinkle {
@@ -110,7 +126,7 @@
             animation: icon-shake 1.5s infinite alternate;
         }
         #update-text {
-            animation: text-glow 2s infinite alternate;
+            animation: text-glow 4s infinite alternate; 
         }
         
         /* --- Other Styles --- */
@@ -170,6 +186,24 @@
             animation: welcome-pop 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
         }
         
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        .modal-content {
+            background: #0f172a;
+            border: 3px solid #00ffff;
+            box-shadow: 0 0 20px #00ffff;
+            padding: 2rem;
+            border-radius: 1rem;
+            animation: bounce-in 0.5s ease-out both;
+        }
     </style>
 </head>
 <body>
@@ -183,83 +217,137 @@
         <!-- Comet/Shooting Star (Will be created dynamically in JS) -->
     </div>
     
+    <!-- Navigation and Owner Icons -->
+    <!-- Top Left: Owner Login Icon -->
+    <div id="owner-icon-container" class="fixed-icon">
+        <span id="owner-login-icon" class="text-white hover:text-yellow-400" title="Owner Login">🔒</span>
+    </div>
+
+    <!-- Top Right: Navigation Icon (Attendance/Home) -->
+    <div id="nav-icon-container" class="fixed-icon">
+        <span id="nav-icon" class="text-cyan-400 hover:text-cyan-600" title="Go to Attendance">📝</span>
+    </div>
+
     <!-- Welcome Overlay -->
     <div id="welcome-overlay" class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 transition-opacity duration-1000 ease-in-out">
         <div id="welcome-text" class="text-5xl md:text-7xl font-black text-yellow-400 opacity-0" style="text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);">
             ខំរៀនណាក្មេងតូច🥳
         </div>
     </div>
+    
+    <!-- Owner Login Modal -->
+    <div id="owner-modal" class="modal hidden">
+        <div class="modal-content text-center">
+            <h3 class="text-2xl font-bold text-cyan-400 mb-4">Owner Login 🔒</h3>
+            <input type="password" id="owner-code-input" placeholder="បញ្ចូលលេខសម្ងាត់" 
+                   class="w-full p-3 mb-3 rounded-lg bg-slate-800 text-white border border-cyan-400 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+            <button id="owner-login-btn" 
+                    class="w-full p-3 font-bold text-black rounded-lg bg-yellow-400 hover:bg-yellow-500 transition duration-200">
+                Enter
+            </button>
+            <p id="error-message" class="text-red-500 mt-2 text-sm hidden">Wrong code! Try again.</p>
+        </div>
+    </div>
+
 
     <!-- Main Content Wrapper -->
     <div class="w-full max-w-4xl p-4 md:p-8 pt-10 z-10">
+        
+        <!-- ============================================== -->
+        <!-- ============== 1. SCHEDULE VIEW ============== -->
+        <!-- ============================================== -->
+        <div id="schedule-view">
+            <!-- Schedule Card -->
+            <div id="schedule-container" class="card-enter w-full bg-slate-900/90 backdrop-blur-md shadow-2xl rounded-3xl p-6 md:p-10 text-center border-4 border-cyan-400/50">
 
-        <!-- Schedule Card -->
-        <div id="schedule-container" class="card-enter w-full bg-slate-900/90 backdrop-blur-md shadow-2xl rounded-3xl p-6 md:p-10 text-center border-4 border-cyan-400/50">
-
-            <!-- Website Title -->
-            <h1 class="text-4xl md:text-6xl font-black mb-4 text-cyan-400 live-text tracking-wide" style="text-shadow: 0 0 10px rgba(0,255,255,0.5);">
-                តារាងបង្រៀន
-            </h1>
-            
-            <!-- Live Date and Time -->
-            <div class="mb-8 text-lg md:text-xl font-bold text-gray-200 live-text">
+                <!-- Website Title -->
+                <h1 class="text-4xl md:text-6xl font-black mb-4 text-cyan-400 live-text tracking-wide" style="text-shadow: 0 0 10px rgba(0,255,255,0.5);">
+                    តារាងបង្រៀន
+                </h1>
                 
-                <!-- Day Cycling Controls -->
-                <div class="flex items-center justify-center space-x-4">
+                <!-- Live Date and Time -->
+                <div class="mb-8 text-lg md:text-xl font-bold text-gray-200 live-text">
                     
-                    <!-- NEW: Home Button to revert to current day -->
-                    <button id="home-btn" class="text-3xl font-extrabold text-red-500 hover:text-red-700 transition duration-300 transform hover:scale-125 focus:outline-none" title="ត្រឡប់ទៅថ្ងៃពិតប្រាកដ">
-                        🏠 <!-- Home Icon Emoji -->
-                    </button>
+                    <!-- Day Cycling Controls -->
+                    <div class="flex items-center justify-center space-x-4">
+                        
+                        <!-- Home Button to revert to current day -->
+                        <button id="home-btn" class="text-3xl font-extrabold text-red-500 hover:text-red-700 transition duration-300 transform hover:scale-125 focus:outline-none" title="ត្រឡប់ទៅថ្ងៃពិតប្រាកដ">
+                            🏠 <!-- Home Icon Emoji -->
+                        </button>
 
-                    <button id="prev-day-btn" class="text-3xl font-extrabold text-blue-400 hover:text-blue-600 transition duration-300 transform hover:scale-125 focus:outline-none">
-                        &#x25C0; <!-- Left Arrow -->
-                    </button>
-                    <span id="khmer-day" class="text-3xl md:text-4xl font-extrabold text-white block mb-1 live-text">...</span>
-                    <button id="next-day-btn" class="text-3xl font-extrabold text-blue-400 hover:text-blue-600 transition duration-300 transform hover:scale-125 focus:outline-none">
-                        &#x25B6; <!-- Right Arrow -->
-                    </button>
+                        <button id="prev-day-btn" class="text-3xl font-extrabold text-blue-400 hover:text-blue-600 transition duration-300 transform hover:scale-125 focus:outline-none">
+                            &#x25C0; <!-- Left Arrow -->
+                        </button>
+                        <span id="khmer-day" class="text-3xl md:text-4xl font-extrabold text-white block mb-1 live-text">...</span>
+                        <button id="next-day-btn" class="text-3xl font-extrabold text-blue-400 hover:text-blue-600 transition duration-300 transform hover:scale-125 focus:outline-none">
+                            &#x25B6; <!-- Right Arrow -->
+                        </button>
+                    </div>
+
+                    <span id="live-date">...</span> | <span id="live-time">...</span>
                 </div>
 
-                <span id="live-date">...</span> | <span id="live-time">...</span>
-            </div>
-
-            <!-- Total Visitors Counter (Online counter removed as requested) -->
-            <div class="flex justify-center items-center space-x-6 mb-4 text-xl">
                 <!-- Total Visitors Counter -->
-                <div title="អ្នកចូលមើលទាំងអស់" class="flex items-center space-x-2 text-yellow-400 font-bold live-text">
-                    <span class="text-2xl">👥</span> <!-- People Icon -->
-                    <span id="total-counter">54សិស្ស</span>
+                <div class="flex justify-center items-center space-x-6 mb-4 text-xl">
+                    <div title="អ្នកចូលមើលទាំងអស់" class="flex items-center space-x-2 text-yellow-400 font-bold live-text">
+                        <span class="text-2xl">👥</span> <!-- People Icon -->
+                        <span id="total-counter">0</span>
+                    </div>
                 </div>
+
+                <!-- User ID Display -->
+                <div class="mb-6 text-lg font-bold text-gray-700 bg-cyan-900/50 p-2 rounded-lg shadow-inner border border-cyan-400/30">
+                    <span class="text-cyan-400">Account ID:</span> <span id="display-user-id" class="text-yellow-400 font-extrabold">...</span>
+                </div>
+                
+                <!-- UPDATE ICON AND TEXT -->
+                <div id="update-icon-container" class="flex items-center justify-center space-x-2 mb-6">
+                    <span class="text-4xl">🚀</span> <!-- Rocket Icon for Update -->
+                    <span id="update-text" class="text-3xl md:text-4xl font-black tracking-wider">
+                        UPDATE!
+                    </span>
+                </div>
+
+
+                <!-- Schedule Title -->
+                <h2 class="text-2xl md:text-3xl font-bold text-green-500 mb-6 border-b-2 pb-2 border-green-500/50">
+                    <span class="live-text">TODAY HAVE</span>
+                </h2>
+
+                <!-- Schedule List -->
+                <div id="schedule-list" class="grid gap-4 text-left">
+                    <div class="text-gray-400">កំពុងផ្ទុកតារាង...</div>
+                </div>
+                
+                <!-- Spacer -->
+                <div class="h-20"></div> 
+
             </div>
+        </div>
 
-            <!-- User ID Display -->
-            <div class="mb-6 text-lg font-bold text-gray-700 bg-cyan-900/50 p-2 rounded-lg shadow-inner border border-cyan-400/30">
-                <span class="text-cyan-400">Account ID:</span> <span id="display-user-id" class="text-yellow-400 font-extrabold">...</span>
+        <!-- ============================================== -->
+        <!-- ============= 2. ATTENDANCE VIEW ============= -->
+        <!-- ============================================== -->
+        <div id="attendance-view" class="hidden">
+             <div id="attendance-container" class="card-enter w-full bg-slate-900/90 backdrop-blur-md shadow-2xl rounded-3xl p-6 md:p-10 text-center border-4 border-red-500/50">
+                <h1 class="text-4xl md:text-6xl font-black mb-4 text-red-400 tracking-wide" style="text-shadow: 0 0 10px rgba(255,0,0,0.5);">
+                    អវត្តមានសិស្ស
+                </h1>
+                
+                <!-- Editing Mode Status -->
+                <div id="editing-status" class="mb-6 text-xl font-bold text-yellow-400 hidden">
+                    🔑 Editing Mode Active
+                </div>
+
+                <!-- Attendance List -->
+                <div id="student-list" class="grid gap-4 text-left">
+                    <div class="text-gray-400">កំពុងផ្ទុកបញ្ជីសិស្ស...</div>
+                </div>
+
+                <!-- Spacer -->
+                <div class="h-20"></div> 
             </div>
-            
-            <!-- UPDATE ICON AND TEXT (NEW FEATURE) -->
-            <div id="update-icon-container" class="flex items-center justify-center space-x-2 mb-6">
-                <span class="text-4xl">🚀</span> <!-- Rocket Icon for Update -->
-                <span id="update-text" class="text-3xl md:text-4xl font-black tracking-wider">
-                    UPDATE!
-                </span>
-            </div>
-
-
-            <!-- Schedule Title -->
-            <h2 class="text-2xl md:text-3xl font-bold text-green-500 mb-6 border-b-2 pb-2 border-green-500/50">
-                <span class="live-text">TODAY HAVE</span>
-            </h2>
-
-            <!-- Schedule List -->
-            <div id="schedule-list" class="grid gap-4 text-left">
-                <div class="text-gray-400">កំពុងផ្ទុកតារាង...</div>
-            </div>
-            
-            <!-- Spacer -->
-            <div class="h-20"></div> 
-
         </div>
 
         <!-- Creator & Bio Section (Always visible) -->
@@ -283,6 +371,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        // Import Firestore functions
         import { getFirestore, doc, setDoc, onSnapshot, collection, serverTimestamp, updateDoc, setLogLevel, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- Global State & Constants ---
@@ -293,6 +382,13 @@
         let displayUserId = null; // The short, formatted ID shown to the user
         let isAuthReady = false; 
         
+        let isOwner = false; // NEW: Owner Login State
+        let currentView = 'schedule'; // NEW: Application view state ('schedule' or 'attendance')
+        let attendanceData = []; // NEW: Local cache for student data
+
+        const OWNER_CODE = "mvp165gg"; // NEW: Secret owner code
+        const ATTENDANCE_DOC_PATH = ["stats", "students_list"]; // NEW: Path for student data document
+
         // Global Variables from Canvas Environment
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
@@ -303,27 +399,24 @@
         
         // Function to create the formatted display ID (ID926XXXX)
         function formatDisplayId(uniqueId) {
+            // Get the last 4 characters of the unique ID (e.g., from user.uid or anon ID)
             const uniquePart = uniqueId.slice(-4).toUpperCase();
             return `ID926${uniquePart}`;
         }
         // --- END CUSTOM ID GENERATION ---
 
-
         // Key: Day of the week (0=Sunday, 1=Monday, ..., 6=Saturday)
         const SCHEDULE_DATA = {
             1: { dayKh: "ថ្ងៃចន្ទ", classes: [{ subject: "អង់គ្លេស", time: "07:00 > 08:00" }, { subject: "ប្រវត្តិវិទ្យា", time: "08:00 > 09:00" }, { subject: "គណិតវិទ្យា", time: "09:00 > 11:00" }] },
             2: { dayKh: "ថ្ងៃអង្គារ", classes: [{ subject: "ភាសាខ្មែរ", time: "07:00 > 08:00" }, { subject: "ចិន", time: "08:00 > 09:00" }, { subject: "ផែនដីវិទ្យា", time: "09:00 > 10:00" }, { subject: "ភូមិវិទ្យា", time: "10:00 > 11:00" }, { subject: "កសិកម្ម", time: "14:00 > 16:00" }] },
-            // Corrected day 3 structure by ensuring it's an array of class objects
             3: { dayKh: "ថ្ងៃពុធ", classes: [{ subject: "គណិតវិទ្យា", time: "07:00 > 09:00" }, { subject: "គីមីវិទ្យា", time: "09:00 > 10:00" }, { subject: "ជីវវិទ្យា", time: "10:00 > 11:00" }, { subject: "សិល្បះ", time: "14:00 > 15:00" }, { subject: "អប់រំកាយកីឡា", time: "15:00 > 17:00" }] },
-            // Corrected day 4 structure
             4: { dayKh: "ថ្ងៃព្រហស្បតិ៍", classes: [{ subject: "ភាសាខ្មែរ", time: "07:00 > 08:00" }, { subject: "ជីវវិទ្យា", time: "10:00 > 11:00" }, { subject: "បណ្ណាល័យ", time: "13:00 > 14:00" }, { subject: "គេហវិទ្យា", time: "15:00 > 17:00" }] },
             5: { dayKh: "ថ្ងៃសុក្រ", classes: [{ subject: "ភាសាខ្មែរ", time: "07:00 > 09:00" }, { subject: "សីលធម៌ ពលរដ្ឋ", time: "09:00 > 10:00" }, { subject: "រូបវិទ្យា", time: "10:00 > 11:00" }] },
-            // Corrected day 6 structure
             6: { dayKh: "ថ្ងៃសៅរ៍", classes: [{ subject: "ភូមិវិទ្យា", time: "07:00 > 08:00" }, { subject: "គណិតវិទ្យា", time: "08:00 > 10:00" }, { subject: "អង់គ្លេស", time: "10:00 > 11:00" }, { subject: "ភាសាបារាំង", time: "13:00 > 15:00" }] },
             0: { dayKh: "ថ្ងៃអាទិត្យ", classes: [{ subject: "រីករាយថ្ងៃឈប់សម្រាក! 😴", time: "ពេញមួយថ្ងៃ" }] }
         };
 
-        // DOM Elements
+        // DOM Elements - Schedule View
         const khmerDayEl = document.getElementById('khmer-day');
         const liveDateEl = document.getElementById('live-date');
         const liveTimeEl = document.getElementById('live-time');
@@ -331,10 +424,22 @@
         const nextDayBtn = document.getElementById('next-day-btn');
         const prevDayBtn = document.getElementById('prev-day-btn');
         const homeBtn = document.getElementById('home-btn'); 
-        // const onlineCounterEl = document.getElementById('online-counter'); // Removed as requested
         const totalCounterEl = document.getElementById('total-counter');
         const displayUserIdEl = document.getElementById('display-user-id');
         const spaceBgEl = document.getElementById('space-bg');
+        
+        // DOM Elements - New UI
+        const scheduleViewEl = document.getElementById('schedule-view');
+        const attendanceViewEl = document.getElementById('attendance-view');
+        const navIconEl = document.getElementById('nav-icon');
+        const ownerIconContainer = document.getElementById('owner-icon-container');
+        const ownerLoginIconEl = document.getElementById('owner-login-icon');
+        const ownerModalEl = document.getElementById('owner-modal');
+        const ownerCodeInput = document.getElementById('owner-code-input');
+        const ownerLoginBtn = document.getElementById('owner-login-btn');
+        const errorMsgEl = document.getElementById('error-message');
+        const studentListEl = document.getElementById('student-list');
+        const editingStatusEl = document.getElementById('editing-status');
 
 
         let realDayIndex = null;
@@ -345,6 +450,7 @@
         // --- Space Background Functions ---
 
         function createStar(delay) {
+            // ... (Star creation function remains the same)
             const star = document.createElement('div');
             star.className = 'star';
             star.style.top = `${Math.random() * 100}vh`;
@@ -356,6 +462,7 @@
         }
 
         function createComet() {
+            // ... (Comet creation function remains the same)
             const comet = document.createElement('div');
             comet.className = 'comet';
             // Start the comet slightly off-screen top-left
@@ -396,11 +503,11 @@
         }
 
         function renderScheduleList(classes, animate = true) {
+            // ... (Schedule list rendering remains the same)
             scheduleListEl.innerHTML = '';
             
             classes.forEach((item, index) => {
                 const subjectEl = document.createElement('div');
-                // Updated styling for space theme
                 subjectEl.className = 'bg-cyan-900/40 p-4 rounded-xl shadow-lg flex justify-between items-center text-gray-100 border-l-4 border-yellow-400 hover:shadow-cyan-500/50 transition duration-300 transform hover:scale-[1.01]';
                 
                 if (animate) {
@@ -413,7 +520,6 @@
                 subjectText.textContent = item.subject;
 
                 const timeText = document.createElement('span');
-                // Updated time block styling
                 timeText.className = 'text-sm md:text-lg font-medium text-red-400 bg-yellow-400/20 px-3 py-1 rounded-full shadow-inner border border-yellow-400';
                 timeText.textContent = item.time;
                 
@@ -424,6 +530,7 @@
         }
         
         function renderSchedule(dayIndex, animate = true) {
+            // ... (Schedule rendering remains the same)
             const todaySchedule = SCHEDULE_DATA[dayIndex];
             
             if (animate) {
@@ -441,6 +548,7 @@
         }
 
         function updateLiveTimeAndDay() {
+            // ... (Live time/day update remains the same)
             const now = new Date();
             const timeZone = 'Asia/Phnom_Penh';
 
@@ -458,13 +566,13 @@
                 clearTimeout(overrideTimer);
                 if (displayDayIndex === null || displayDayIndex === newRealDayIndex) {
                     displayDayIndex = realDayIndex;
-                    renderSchedule(displayDayIndex, true); 
+                    if(currentView === 'schedule') renderSchedule(displayDayIndex, true); 
                 }
             }
 
             if (displayDayIndex === null) {
                 displayDayIndex = realDayIndex;
-                renderSchedule(displayDayIndex, false);
+                if(currentView === 'schedule') renderSchedule(displayDayIndex, false);
             }
             
             liveDateEl.textContent = fullDate.trim(); 
@@ -473,7 +581,7 @@
         }
 
         function cycleDay(direction) {
-            
+            // ... (Day cycling remains the same)
             if (overrideTimer === null || displayDayIndex === realDayIndex) {
                 displayDayIndex = realDayIndex;
             }
@@ -497,6 +605,7 @@
         }
 
         function goToRealDay() {
+            // ... (Go to real day remains the same)
             if (overrideTimer) {
                 clearTimeout(overrideTimer);
                 overrideTimer = null;
@@ -507,9 +616,224 @@
             }
         }
         
+        // --- View Management (NEW) ---
+        function setView(viewName) {
+            currentView = viewName;
+            
+            scheduleViewEl.classList.add('hidden');
+            attendanceViewEl.classList.add('hidden');
+
+            if (viewName === 'schedule') {
+                scheduleViewEl.classList.remove('hidden');
+                navIconEl.textContent = '📝';
+                navIconEl.title = 'Go to Attendance';
+                ownerLoginIconEl.classList.remove('hidden'); // Show owner icon on schedule view
+                updateLiveTimeAndDay(); // Refresh day display in case it was overridden
+            } else if (viewName === 'attendance') {
+                attendanceViewEl.classList.remove('hidden');
+                navIconEl.textContent = '🏠';
+                navIconEl.title = 'Back to Schedule';
+                ownerLoginIconEl.classList.toggle('hidden', !isOwner); // Hide owner icon if not owner
+                renderAttendanceList(true); // Re-render the attendance list
+            }
+            updateOwnerIcon();
+        }
+
+        function updateOwnerIcon() {
+             // Show owner icon on schedule view
+             ownerLoginIconEl.classList.toggle('hidden', currentView === 'attendance' && !isOwner);
+             // Change icon based on login status
+             ownerLoginIconEl.textContent = isOwner ? '🔑' : '🔒';
+             ownerLoginIconEl.title = isOwner ? 'Logged in as Owner' : 'Owner Login';
+             editingStatusEl.classList.toggle('hidden', !isOwner);
+        }
+
+        // --- Attendance Logic (NEW) ---
+
+        const INITIAL_STUDENTS = [
+            { id: 1, name: "test1", status: "🟢" },
+            { id: 2, name: "test2", status: "🟢" },
+            { id: 3, name: "test3", status: "🟢" },
+            { id: 4, name: "test4", status: "🟢" },
+            { id: 5, name: "test5", status: "🟢" },
+        ];
+        
+        const PUBLIC_BASE_PATH = ["artifacts", appId, "public", "data"];
+        const attendanceDocRef = () => doc(db, ...PUBLIC_BASE_PATH, "attendance_data", "students_list");
+
+        async function saveStudentData(data) {
+            if (!db) { console.error("Database not initialized."); return; }
+            if (!isOwner) { console.error("Only the owner can save changes."); return; }
+            
+            try {
+                await setDoc(attendanceDocRef(), { students: data }, { merge: true });
+                console.log("Student data saved successfully.");
+            } catch (e) {
+                console.error("Error saving student data:", e);
+            }
+        }
+
+        function renderAttendanceList(animate = true) {
+            studentListEl.innerHTML = '';
+            
+            if (attendanceData.length === 0) {
+                studentListEl.innerHTML = `<div class="text-gray-400 p-4">គ្មានទិន្នន័យសិស្សទេ។</div>`;
+                return;
+            }
+
+            attendanceData.forEach((student, index) => {
+                const itemEl = document.createElement('div');
+                itemEl.id = `student-${student.id}`;
+                itemEl.className = 'bg-slate-800/60 p-4 rounded-xl shadow-lg flex justify-between items-center text-gray-100 border-l-4 transition duration-300 transform hover:scale-[1.01]';
+                itemEl.style.borderColor = student.status === '🟢' ? '#10b981' : '#ef4444'; /* green or red border */
+                itemEl.dataset.index = index;
+
+                if (animate) {
+                    itemEl.classList.add('subject-item');
+                    itemEl.style.animationDelay = `${index * 0.1}s`;
+                }
+
+                // Status Emoji Button
+                const statusEl = document.createElement('span');
+                statusEl.className = 'text-3xl font-extrabold cursor-default pr-4';
+                statusEl.textContent = student.status;
+                statusEl.title = isOwner ? "Click to toggle status" : student.status === '🟢' ? "Present" : "Absent";
+                
+                if (isOwner) {
+                    statusEl.classList.add('cursor-pointer');
+                    statusEl.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        toggleStudentStatus(index);
+                    });
+                }
+
+                // Name/Edit Field
+                const nameContainer = document.createElement('div');
+                nameContainer.className = 'flex-grow text-xl md:text-2xl font-bold';
+                nameContainer.textContent = student.name;
+                
+                if (isOwner) {
+                    nameContainer.classList.add('cursor-pointer');
+                    nameContainer.title = "Double-click to edit name";
+                    nameContainer.addEventListener('dblclick', (e) => {
+                        handleEdit(itemEl, index, nameContainer, student.name);
+                    });
+                }
+                
+                itemEl.appendChild(statusEl);
+                itemEl.appendChild(nameContainer);
+                studentListEl.appendChild(itemEl);
+            });
+        }
+
+        function toggleStudentStatus(index) {
+            if (!isOwner) return;
+
+            const newStatus = attendanceData[index].status === '🟢' ? '🔴' : '🟢';
+            attendanceData[index].status = newStatus;
+
+            // Save the updated array to Firestore
+            saveStudentData(attendanceData);
+            // The onSnapshot listener will handle re-rendering for all clients.
+        }
+
+        function handleEdit(itemEl, index, nameContainer, originalName) {
+            if (!isOwner) return;
+
+            // 1. Replace name container with input field
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = originalName;
+            input.className = 'w-full p-2 rounded-md bg-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400';
+            
+            // Temporary hide status and replace name container
+            const statusEl = itemEl.querySelector('span:first-child');
+            if(statusEl) statusEl.style.visibility = 'hidden';
+            
+            nameContainer.replaceWith(input);
+            input.focus();
+
+            // 2. Define the save function
+            const saveChanges = () => {
+                const newName = input.value.trim();
+                
+                // If name is empty, revert to original
+                if (newName === "") {
+                    // Do nothing and revert
+                    input.replaceWith(nameContainer);
+                    if(statusEl) statusEl.style.visibility = 'visible';
+                    return;
+                }
+
+                attendanceData[index].name = newName;
+                saveStudentData(attendanceData);
+
+                // Re-render the container to show the new data (onSnapshot will handle final rendering)
+                nameContainer.textContent = newName;
+                input.replaceWith(nameContainer);
+                if(statusEl) statusEl.style.visibility = 'visible';
+            };
+
+            // 3. Set up event listeners for saving
+            input.addEventListener('blur', saveChanges);
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    saveChanges();
+                }
+            });
+        }
+
+        function listenToStudentData() {
+            if (!db) return;
+            
+            onSnapshot(attendanceDocRef(), async (docSnapshot) => {
+                if (docSnapshot.exists() && docSnapshot.data().students) {
+                    attendanceData = docSnapshot.data().students;
+                } else {
+                    // Document doesn't exist, initialize it with the default list
+                    attendanceData = INITIAL_STUDENTS;
+                    if (isAuthReady) { // Only attempt to create if Auth is ready
+                        console.log("Initializing student list in Firestore.");
+                        // Use setDoc to create the document if it's the first visit
+                        await setDoc(attendanceDocRef(), { students: INITIAL_STUDENTS });
+                    }
+                }
+                
+                // Only render if we are currently on the attendance view
+                if (currentView === 'attendance') {
+                    renderAttendanceList(true);
+                }
+            }, (error) => {
+                console.error("Error listening to student data (Check Security Rules!):", error);
+            });
+        }
+
+        // --- Owner Login Logic (NEW) ---
+
+        function handleOwnerLogin() {
+            const code = ownerCodeInput.value.trim();
+            errorMsgEl.classList.add('hidden');
+
+            if (code === OWNER_CODE) {
+                isOwner = true;
+                ownerModalEl.classList.add('hidden');
+                ownerCodeInput.value = '';
+                updateOwnerIcon();
+                
+                // If already on attendance screen, re-render to enable editing
+                if (currentView === 'attendance') {
+                    renderAttendanceList(true); 
+                }
+            } else {
+                errorMsgEl.classList.remove('hidden');
+            }
+        }
+        
         // --- Welcome Initialization ---
 
         function initializeWelcome() {
+            // ... (Welcome screen remains the same)
             const overlay = document.getElementById('welcome-overlay');
             const text = document.getElementById('welcome-text');
 
@@ -538,7 +862,7 @@
                 app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
                 db = getFirestore(app);
-
+                
                 // 1. Attempt Sign In
                 if (initialAuthToken) {
                     await signInWithCustomToken(auth, initialAuthToken).catch(e => {
@@ -565,6 +889,7 @@
 
                     if (db) {
                         trackPresence();
+                        listenToStudentData(); // Start listening to student data immediately
                     } else {
                         console.error("Firestore DB is not initialized. Cannot track presence.");
                     }
@@ -575,96 +900,85 @@
             }
         }
 
-
+        // IMPORTANT: Total users are counted using the unique keys in the 'total_users' map
         function trackPresence() {
             if (!db || !userId) return;
 
-            console.log("Starting presence tracking for:", userId);
-
-            // Path components for the required public collection structure:
-            const PUBLIC_BASE_PATH = ["artifacts", appId, "public", "data"]; // C/D/C/D
-
-            // --- 1. Real-time Online Status (Still needed for the total count heartbeat) ---
-            const onlinePresenceRef = collection(db, ...PUBLIC_BASE_PATH, "online_status");
-            const currentUserOnlineDocRef = doc(onlinePresenceRef, userId);
-
-            // Function to update public online status
-            const setOnline = async (isOnline) => {
-                try {
-                    if (isOnline) {
-                        await setDoc(currentUserOnlineDocRef, {
-                            last_seen: serverTimestamp(),
-                            user_id: userId,
-                            display_id: displayUserId
-                        });
-                    } else {
-                        await updateDoc(currentUserOnlineDocRef, {
-                            last_seen_offline: serverTimestamp(),
-                        }).catch(err => {
-                            if (err.code !== 'not-found') {
-                                console.warn("Failed to update status on close:", err.message);
-                            }
-                        }); 
-                    }
-                } catch (e) {
-                    console.error("Failed to update public online status:", e);
-                }
-            };
-
-            // Heartbeat
-            setOnline(true);
-            window.addEventListener('focus', () => setOnline(true));
-            setInterval(() => setOnline(true), 2 * 60 * 1000); 
-            window.addEventListener('beforeunload', () => setOnline(false));
-
-
-            // --- 2. Total Users ---
+            const PUBLIC_BASE_PATH = ["artifacts", appId, "public", "data"]; 
             const statsDocRef = doc(db, ...PUBLIC_BASE_PATH, "stats", "user_count");
             
-            // Update the total unique visitors count field for this user
-            const updateStats = async () => {
+            // Function to register the current user in the total count map
+            const registerUniqueUser = async () => {
                 try {
                     const updateData = {};
                     updateData[`total_users.${userId}`] = serverTimestamp();
-                    await setDoc(statsDocRef, updateData, { merge: true });
+                    await setDoc(statsDocRef, updateData, { merge: true }); 
                 } catch (error) {
-                    console.error("Error setting/updating total user count:", error);
+                    console.error("Error registering unique user:", error);
                 }
             };
-            updateStats();
+            registerUniqueUser();
 
 
-            // --- 3. Listen for TOTAL UNIQUE users (Online counter removed) ---
+            // Listen for TOTAL UNIQUE users
             onSnapshot(statsDocRef, (docSnapshot) => {
                 if (docSnapshot.exists()) {
                     const data = docSnapshot.data();
                     const totalUsers = data.total_users ? Object.keys(data.total_users).length : 0;
                     totalCounterEl.textContent = totalUsers;
-                    console.log("Total count updated:", totalUsers);
                 } else {
                     totalCounterEl.textContent = 1; 
-                    console.log("Total count updated: 1 (initial visitor)");
                 }
             }, (error) => {
                 console.error("Error listening to total users (Check Security Rules!):", error);
             });
-            
-            // NOTE: The 'online_status' collection is still updated by the heartbeat, but we stop listening 
-            // to it here and removed the display element (onlineCounterEl) as requested.
         }
 
         // --- Initialization ---
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Setup space background first
             initializeSpaceBackground();
             
-            // Setup day cycling buttons
-            nextDayBtn.addEventListener('click', () => cycleDay(1)); // +1 day
-            prevDayBtn.addEventListener('click', () => cycleDay(-1)); // -1 day
-            
-            // Setup Home button
+            // --- Schedule View Event Listeners ---
+            nextDayBtn.addEventListener('click', () => cycleDay(1));
+            prevDayBtn.addEventListener('click', () => cycleDay(-1));
             homeBtn.addEventListener('click', goToRealDay);
+
+            // --- New Feature Event Listeners ---
+            // Top Right Navigation Icon
+            navIconEl.addEventListener('click', () => {
+                if (currentView === 'schedule') {
+                    setView('attendance');
+                } else {
+                    setView('schedule');
+                }
+            });
+
+            // Top Left Owner Login Icon
+            ownerLoginIconEl.addEventListener('click', () => {
+                if (!isOwner) {
+                    ownerModalEl.classList.remove('hidden');
+                    ownerCodeInput.focus();
+                }
+            });
+
+            // Owner Login Modal Logic
+            ownerLoginBtn.addEventListener('click', handleOwnerLogin);
+            ownerCodeInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleOwnerLogin();
+                }
+            });
+            // Close modal on click outside (except on the modal content itself)
+            ownerModalEl.addEventListener('click', (e) => {
+                if (e.target === ownerModalEl) {
+                    ownerModalEl.classList.add('hidden');
+                    errorMsgEl.classList.add('hidden');
+                    ownerCodeInput.value = '';
+                }
+            });
+
 
             // Run initial update and set interval for time/day
             updateLiveTimeAndDay();

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🌌 តារាងបង្រៀន Space Update</title>
-    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -36,15 +35,20 @@
         .fixed-icon:hover {
             transform: scale(1.1);
         }
-        #nav-icon-container { right: 20px; }
-        #owner-icon-container { left: 20px; }
+        #nav-icon-container { right: 20px;
+        }
+        #owner-icon-container { left: 20px;
+        }
 
         /* --- 1. Space Background Animations (Stars & Comet) --- */
         /* Animation for twinkling stars */
         @keyframes twinkle {
-            0% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-            100% { opacity: 0.5; transform: scale(1); }
+            0% { opacity: 0.5;
+            transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2);
+            }
+            100% { opacity: 0.5; transform: scale(1);
+            }
         }
 
         /* Container for stars and comet */
@@ -71,10 +75,14 @@
 
         /* Comet/Shooting Star Animation */
         @keyframes shoot {
-            0% { transform: translate(-100vw, -100vh); opacity: 0; }
-            5% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { transform: translate(100vw, 100vh); opacity: 0; }
+            0% { transform: translate(-100vw, -100vh);
+            opacity: 0; }
+            5% { opacity: 1;
+            }
+            50% { opacity: 0.5;
+            }
+            100% { transform: translate(100vw, 100vh); opacity: 0;
+            }
         }
         .comet {
             position: absolute;
@@ -88,9 +96,12 @@
 
         /* --- 2. Alien Emoji Animation --- */
         @keyframes float-alien {
-            0% { transform: translate(0, 0) rotate(5deg); }
-            50% { transform: translate(15px, -15px) rotate(-5deg); }
-            100% { transform: translate(0, 0) rotate(5deg); }
+            0% { transform: translate(0, 0) rotate(5deg);
+            }
+            50% { transform: translate(15px, -15px) rotate(-5deg);
+            }
+            100% { transform: translate(0, 0) rotate(5deg);
+            }
         }
         .alien {
             position: absolute;
@@ -112,30 +123,38 @@
         /* --- 3. Update Icon Animation --- */
         /* Shaking Icon */
         @keyframes icon-shake {
-            0%, 100% { transform: rotate(0deg); }
-            20%, 60% { transform: rotate(-10deg); }
-            40%, 80% { transform: rotate(10deg); }
+            0%, 100% { transform: rotate(0deg);
+            }
+            20%, 60% { transform: rotate(-10deg);
+            }
+            40%, 80% { transform: rotate(10deg);
+            }
         }
         /* Glowing/Pulsing Text */
         @keyframes text-glow {
-            0%, 100% { color: #facc15; text-shadow: 0 0 5px #facc15, 0 0 10px #f97316; }
-            50% { color: #fee2e2; text-shadow: 0 0 10px #fee2e2, 0 0 20px #dc2626; }
+            0%, 100% { color: #facc15;
+            text-shadow: 0 0 5px #facc15, 0 0 10px #f97316; }
+            50% { color: #fee2e2;
+            text-shadow: 0 0 10px #fee2e2, 0 0 20px #dc2626; }
         }
         
         #update-icon-container {
             animation: icon-shake 1.5s infinite alternate;
         }
         #update-text {
-            animation: text-glow 4s infinite alternate; 
+            animation: text-glow 4s infinite alternate;
         }
         
         /* --- Other Styles --- */
         
         /* Creator Text Animation (Shimmering Glow) */
         @keyframes shimmer-glow {
-            0% { text-shadow: 0 0 5px #fff, 0 0 10px #00ffff; transform: translateY(0) scale(1); }
-            50% { text-shadow: 0 0 15px #0ff, 0 0 25px #00ffff, 0 0 40px #0ff; transform: translateY(-3px) scale(1.02); }
-            100% { text-shadow: 0 0 5px #fff, 0 0 10px #00ffff; transform: translateY(0) scale(1); }
+            0% { text-shadow: 0 0 5px #fff, 0 0 10px #00ffff;
+            transform: translateY(0) scale(1); }
+            50% { text-shadow: 0 0 15px #0ff, 0 0 25px #00ffff, 0 0 40px #0ff;
+            transform: translateY(-3px) scale(1.02); }
+            100% { text-shadow: 0 0 5px #fff, 0 0 10px #00ffff;
+            transform: translateY(0) scale(1); }
         }
         #creator-text {
             animation: shimmer-glow 2.5s infinite alternate;
@@ -146,8 +165,10 @@
 
         /* Live Date/Time Pulse Glow Animation (Adapted for space theme) */
         @keyframes pulse-glow {
-            0%, 100% { text-shadow: 0 0 5px rgba(100, 255, 255, 0.7), 0 0 10px rgba(0, 255, 0, 0.5); }
-            50% { text-shadow: 0 0 15px rgba(100, 255, 255, 1), 0 0 25px rgba(0, 255, 0, 0.8); }
+            0%, 100% { text-shadow: 0 0 5px rgba(100, 255, 255, 0.7), 0 0 10px rgba(0, 255, 0, 0.5);
+            }
+            50% { text-shadow: 0 0 15px rgba(100, 255, 255, 1), 0 0 25px rgba(0, 255, 0, 0.8);
+            }
         }
         .live-text {
             animation: pulse-glow 3s infinite alternate;
@@ -155,22 +176,29 @@
 
         /* Card Entrance Animation */
         @keyframes bounce-in {
-            0% { transform: scale(0.8) translateY(-50px); opacity: 0; }
-            50% { transform: scale(1.05) translateY(10px); opacity: 1; }
-            100% { transform: scale(1) translateY(0); }
+            0% { transform: scale(0.8) translateY(-50px);
+            opacity: 0; }
+            50% { transform: scale(1.05) translateY(10px);
+            opacity: 1; }
+            100% { transform: scale(1) translateY(0);
+            }
         }
         .card-enter {
             animation: bounce-in 0.8s ease-out both;
         }
 
         /* Schedule Transition Animation (Fade Out/In) */
-        .fade-out { opacity: 0; transition: opacity 0.3s ease-out; }
-        .fade-in { opacity: 1; transition: opacity 0.5s ease-in; }
+        .fade-out { opacity: 0;
+        transition: opacity 0.3s ease-out; }
+        .fade-in { opacity: 1; transition: opacity 0.5s ease-in;
+        }
 
         /* Subject Item Animation */
         @keyframes slide-up {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0;
+            transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0);
+            }
         }
         .subject-item {
             animation: slide-up 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
@@ -178,9 +206,12 @@
         
         /* Welcome Screen Animation */
         @keyframes welcome-pop {
-            0% { opacity: 0; transform: scale(0.5) rotate(-5deg); }
-            50% { opacity: 1; transform: scale(1.1) rotate(5deg); }
-            100% { opacity: 1; transform: scale(1) rotate(0); }
+            0% { opacity: 0;
+            transform: scale(0.5) rotate(-5deg); }
+            50% { opacity: 1;
+            transform: scale(1.1) rotate(5deg); }
+            100% { opacity: 1;
+            transform: scale(1) rotate(0); }
         }
         .welcome-active {
             animation: welcome-pop 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
@@ -208,34 +239,26 @@
 </head>
 <body>
     
-    <!-- 1. SPACE BACKGROUND CONTAINER -->
     <div id="space-bg" class="space-bg">
-        <!-- Alien 1 -->
         <span class="alien" style="top: 15%; left: 10%; animation-delay: 0s;">👽</span>
-        <!-- Alien 2 -->
         <span class="alien" style="top: 75%; right: 5%; left: auto; font-size: 3.5rem; animation-delay: 4s;">👾</span>
-        <!-- Comet/Shooting Star (Will be created dynamically in JS) -->
-    </div>
+        </div>
     
-    <!-- Navigation and Owner Icons -->
-    <!-- Top Left: Owner Login Icon -->
     <div id="owner-icon-container" class="fixed-icon">
         <span id="owner-login-icon" class="text-white hover:text-yellow-400" title="Owner Login">🔒</span>
     </div>
 
-    <!-- Top Right: Navigation Icon (Attendance/Home) -->
     <div id="nav-icon-container" class="fixed-icon">
         <span id="nav-icon" class="text-cyan-400 hover:text-cyan-600" title="Go to Attendance">📝</span>
     </div>
 
-    <!-- Welcome Overlay -->
-    <div id="welcome-overlay" class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 transition-opacity duration-1000 ease-in-out">
+    <div id="welcome-overlay" class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 
+transition-opacity duration-1000 ease-in-out">
         <div id="welcome-text" class="text-5xl md:text-7xl font-black text-yellow-400 opacity-0" style="text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);">
             ខំរៀនណាក្មេងតូច🥳
         </div>
     </div>
     
-    <!-- Owner Login Modal -->
     <div id="owner-modal" class="modal hidden">
         <div class="modal-content text-center">
             <h3 class="text-2xl font-bold text-cyan-400 mb-4">Owner Login 🔒</h3>
@@ -245,112 +268,86 @@
                     class="w-full p-3 font-bold text-black rounded-lg bg-yellow-400 hover:bg-yellow-500 transition duration-200">
                 Enter
             </button>
-            <p id="error-message" class="text-red-500 mt-2 text-sm hidden">Wrong code! Try again.</p>
+            <p id="error-message" class="text-red-500 mt-2 text-sm hidden">Wrong code!
+Try again.</p>
         </div>
     </div>
 
 
-    <!-- Main Content Wrapper -->
     <div class="w-full max-w-4xl p-4 md:p-8 pt-10 z-10">
         
-        <!-- ============================================== -->
-        <!-- ============== 1. SCHEDULE VIEW ============== -->
-        <!-- ============================================== -->
         <div id="schedule-view">
-            <!-- Schedule Card -->
             <div id="schedule-container" class="card-enter w-full bg-slate-900/90 backdrop-blur-md shadow-2xl rounded-3xl p-6 md:p-10 text-center border-4 border-cyan-400/50">
 
-                <!-- Website Title -->
                 <h1 class="text-4xl md:text-6xl font-black mb-4 text-cyan-400 live-text tracking-wide" style="text-shadow: 0 0 10px rgba(0,255,255,0.5);">
                     តារាងបង្រៀន
                 </h1>
                 
-                <!-- Live Date and Time -->
                 <div class="mb-8 text-lg md:text-xl font-bold text-gray-200 live-text">
                     
-                    <!-- Day Cycling Controls -->
                     <div class="flex items-center justify-center space-x-4">
                         
-                        <!-- Home Button to revert to current day -->
                         <button id="home-btn" class="text-3xl font-extrabold text-red-500 hover:text-red-700 transition duration-300 transform hover:scale-125 focus:outline-none" title="ត្រឡប់ទៅថ្ងៃពិតប្រាកដ">
-                            🏠 <!-- Home Icon Emoji -->
-                        </button>
+                            🏠 </button>
 
                         <button id="prev-day-btn" class="text-3xl font-extrabold text-blue-400 hover:text-blue-600 transition duration-300 transform hover:scale-125 focus:outline-none">
-                            &#x25C0; <!-- Left Arrow -->
-                        </button>
+                            &#x25C0; </button>
                         <span id="khmer-day" class="text-3xl md:text-4xl font-extrabold text-white block mb-1 live-text">...</span>
                         <button id="next-day-btn" class="text-3xl font-extrabold text-blue-400 hover:text-blue-600 transition duration-300 transform hover:scale-125 focus:outline-none">
-                            &#x25B6; <!-- Right Arrow -->
-                        </button>
+                            &#x25B6; </button>
                     </div>
 
                     <span id="live-date">...</span> | <span id="live-time">...</span>
                 </div>
 
-                <!-- Total Visitors Counter -->
                 <div class="flex justify-center items-center space-x-6 mb-4 text-xl">
                     <div title="អ្នកចូលមើលទាំងអស់" class="flex items-center space-x-2 text-yellow-400 font-bold live-text">
-                        <span class="text-2xl">👥</span> <!-- People Icon -->
-                        <span id="total-counter">0</span>
+                        <span class="text-2xl">👥</span> <span id="total-counter">0</span>
                     </div>
                 </div>
 
-                <!-- User ID Display -->
                 <div class="mb-6 text-lg font-bold text-gray-700 bg-cyan-900/50 p-2 rounded-lg shadow-inner border border-cyan-400/30">
                     <span class="text-cyan-400">Account ID:</span> <span id="display-user-id" class="text-yellow-400 font-extrabold">...</span>
                 </div>
                 
-                <!-- UPDATE ICON AND TEXT -->
                 <div id="update-icon-container" class="flex items-center justify-center space-x-2 mb-6">
-                    <span class="text-4xl">🚀</span> <!-- Rocket Icon for Update -->
-                    <span id="update-text" class="text-3xl md:text-4xl font-black tracking-wider">
+                    <span class="text-4xl">🚀</span> <span id="update-text" class="text-3xl md:text-4xl font-black tracking-wider">
                         UPDATE!
                     </span>
                 </div>
 
 
-                <!-- Schedule Title -->
                 <h2 class="text-2xl md:text-3xl font-bold text-green-500 mb-6 border-b-2 pb-2 border-green-500/50">
                     <span class="live-text">TODAY HAVE</span>
                 </h2>
 
-                <!-- Schedule List -->
                 <div id="schedule-list" class="grid gap-4 text-left">
                     <div class="text-gray-400">កំពុងផ្ទុកតារាង...</div>
                 </div>
                 
-                <!-- Spacer -->
                 <div class="h-20"></div> 
 
             </div>
         </div>
 
-        <!-- ============================================== -->
-        <!-- ============= 2. ATTENDANCE VIEW ============= -->
-        <!-- ============================================== -->
         <div id="attendance-view" class="hidden">
-             <div id="attendance-container" class="card-enter w-full bg-slate-900/90 backdrop-blur-md shadow-2xl rounded-3xl p-6 md:p-10 text-center border-4 border-red-500/50">
+            <div id="attendance-container" class="card-enter w-full bg-slate-900/90 backdrop-blur-md shadow-2xl rounded-3xl p-6 md:p-10 text-center border-4 border-red-500/50">
                 <h1 class="text-4xl md:text-6xl font-black mb-4 text-red-400 tracking-wide" style="text-shadow: 0 0 10px rgba(255,0,0,0.5);">
                     អវត្តមានសិស្ស
                 </h1>
                 
-                <!-- Editing Mode Status -->
                 <div id="editing-status" class="mb-6 text-xl font-bold text-yellow-400 hidden">
                     🔑 Editing Mode Active
                 </div>
 
-                <!-- Attendance List -->
                 <div id="student-list" class="grid gap-4 text-left">
                     <div class="text-gray-400">កំពុងផ្ទុកបញ្ជីសិស្ស...</div>
                 </div>
 
-                <!-- Spacer -->
                 <div class="h-20"></div> 
             </div>
         </div>
 
-        <!-- Creator & Bio Section (Always visible) -->
         <div id="creator-bio-section" class="w-full py-8 mt-4 text-center z-10">
             
             <div id="creator-text-container" class="mb-4 text-center">
@@ -373,15 +370,13 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         // Import Firestore functions
         import { getFirestore, doc, setDoc, onSnapshot, collection, serverTimestamp, updateDoc, setLogLevel, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
         // --- Global State & Constants ---
         let app = null;
         let auth = null;
         let db = null;
         let userId = null; // The unique ID used in Firestore 
         let displayUserId = null; // The short, formatted ID shown to the user
-        let isAuthReady = false; 
-        
+        let isAuthReady = false;
         let isOwner = false; // NEW: Owner Login State
         let currentView = 'schedule'; // NEW: Application view state ('schedule' or 'attendance')
         let attendanceData = []; // NEW: Local cache for student data
@@ -390,13 +385,12 @@
         const ATTENDANCE_DOC_PATH = ["stats", "students_list"]; // NEW: Path for student data document
 
         // Global Variables from Canvas Environment
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const appId = typeof __app_id !== 'undefined' ?
+        __app_id : 'default-app-id';
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
         // --- CUSTOM ID GENERATION ---
         const generateAnonId = () => 'anon-' + Math.random().toString(36).substring(2, 9) + Date.now();
-        
         // Function to create the formatted display ID (ID926XXXX)
         function formatDisplayId(uniqueId) {
             // Get the last 4 characters of the unique ID (e.g., from user.uid or anon ID)
@@ -410,8 +404,10 @@
             1: { dayKh: "ថ្ងៃចន្ទ", classes: [{ subject: "អង់គ្លេស", time: "07:00 > 08:00" }, { subject: "ប្រវត្តិវិទ្យា", time: "08:00 > 09:00" }, { subject: "គណិតវិទ្យា", time: "09:00 > 11:00" }] },
             2: { dayKh: "ថ្ងៃអង្គារ", classes: [{ subject: "ភាសាខ្មែរ", time: "07:00 > 08:00" }, { subject: "ចិន", time: "08:00 > 09:00" }, { subject: "ផែនដីវិទ្យា", time: "09:00 > 10:00" }, { subject: "ភូមិវិទ្យា", time: "10:00 > 11:00" }, { subject: "កសិកម្ម", time: "14:00 > 16:00" }] },
             3: { dayKh: "ថ្ងៃពុធ", classes: [{ subject: "គណិតវិទ្យា", time: "07:00 > 09:00" }, { subject: "គីមីវិទ្យា", time: "09:00 > 10:00" }, { subject: "ជីវវិទ្យា", time: "10:00 > 11:00" }, { subject: "សិល្បះ", time: "14:00 > 15:00" }, { subject: "អប់រំកាយកីឡា", time: "15:00 > 17:00" }] },
+
             4: { dayKh: "ថ្ងៃព្រហស្បតិ៍", classes: [{ subject: "ភាសាខ្មែរ", time: "07:00 > 08:00" }, { subject: "ជីវវិទ្យា", time: "10:00 > 11:00" }, { subject: "បណ្ណាល័យ", time: "13:00 > 14:00" }, { subject: "គេហវិទ្យា", time: "15:00 > 17:00" }] },
             5: { dayKh: "ថ្ងៃសុក្រ", classes: [{ subject: "ភាសាខ្មែរ", time: "07:00 > 09:00" }, { subject: "សីលធម៌ ពលរដ្ឋ", time: "09:00 > 10:00" }, { subject: "រូបវិទ្យា", time: "10:00 > 11:00" }] },
+         
             6: { dayKh: "ថ្ងៃសៅរ៍", classes: [{ subject: "ភូមិវិទ្យា", time: "07:00 > 08:00" }, { subject: "គណិតវិទ្យា", time: "08:00 > 10:00" }, { subject: "អង់គ្លេស", time: "10:00 > 11:00" }, { subject: "ភាសាបារាំង", time: "13:00 > 15:00" }] },
             0: { dayKh: "ថ្ងៃអាទិត្យ", classes: [{ subject: "រីករាយថ្ងៃឈប់សម្រាក! 😴", time: "ពេញមួយថ្ងៃ" }] }
         };
@@ -496,8 +492,7 @@
                 element.classList.remove('fade-out');
                 element.classList.add('fade-in');
             }, 300);
-
-            setTimeout(() => {
+           setTimeout(() => {
                 element.classList.remove('fade-in');
             }, 800);
         }
@@ -505,7 +500,6 @@
         function renderScheduleList(classes, animate = true) {
             // ... (Schedule list rendering remains the same)
             scheduleListEl.innerHTML = '';
-            
             classes.forEach((item, index) => {
                 const subjectEl = document.createElement('div');
                 subjectEl.className = 'bg-cyan-900/40 p-4 rounded-xl shadow-lg flex justify-between items-center text-gray-100 border-l-4 border-yellow-400 hover:shadow-cyan-500/50 transition duration-300 transform hover:scale-[1.01]';
@@ -522,8 +516,7 @@
                 const timeText = document.createElement('span');
                 timeText.className = 'text-sm md:text-lg font-medium text-red-400 bg-yellow-400/20 px-3 py-1 rounded-full shadow-inner border border-yellow-400';
                 timeText.textContent = item.time;
-                
-                subjectEl.appendChild(subjectText);
+            subjectEl.appendChild(subjectText);
                 subjectEl.appendChild(timeText);
                 scheduleListEl.appendChild(subjectEl);
             });
@@ -532,12 +525,10 @@
         function renderSchedule(dayIndex, animate = true) {
             // ... (Schedule rendering remains the same)
             const todaySchedule = SCHEDULE_DATA[dayIndex];
-            
             if (animate) {
                 applyTransition(khmerDayEl, () => {
                     khmerDayEl.textContent = todaySchedule.dayKh;
                 });
-                
                 applyTransition(scheduleListEl, () => {
                     renderScheduleList(todaySchedule.classes, true);
                 });
@@ -554,15 +545,12 @@
 
             const optionsDate = { year: 'numeric', month: 'long', day: 'numeric', timeZone: timeZone };
             const optionsTime = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: timeZone };
-
             const fullDate = new Intl.DateTimeFormat('km-KH', optionsDate).format(now);
             const liveTime = new Intl.DateTimeFormat('en-US', optionsTime).format(now);
             
             const newRealDayIndex = now.getDay();
-
             if (realDayIndex === null || realDayIndex !== newRealDayIndex) {
                 realDayIndex = newRealDayIndex;
-                
                 clearTimeout(overrideTimer);
                 if (displayDayIndex === null || displayDayIndex === newRealDayIndex) {
                     displayDayIndex = realDayIndex;
@@ -575,7 +563,7 @@
                 if(currentView === 'schedule') renderSchedule(displayDayIndex, false);
             }
             
-            liveDateEl.textContent = fullDate.trim(); 
+            liveDateEl.textContent = fullDate.trim();
             liveTimeEl.textContent = liveTime;
             khmerDayEl.textContent = SCHEDULE_DATA[displayDayIndex].dayKh;
         }
@@ -589,14 +577,12 @@
             clearTimeout(overrideTimer);
 
             let nextIndex = displayDayIndex + direction;
-
             if (nextIndex > 6) nextIndex = 0;
             if (nextIndex < 0) nextIndex = 6;
 
             displayDayIndex = nextIndex;
             
             renderSchedule(displayDayIndex, true);
-
             overrideTimer = setTimeout(() => {
                 displayDayIndex = realDayIndex;
                 renderSchedule(realDayIndex, true);
@@ -619,7 +605,6 @@
         // --- View Management (NEW) ---
         function setView(viewName) {
             currentView = viewName;
-            
             scheduleViewEl.classList.add('hidden');
             attendanceViewEl.classList.add('hidden');
 
@@ -657,10 +642,8 @@
             { id: 4, name: "test4", status: "🟢" },
             { id: 5, name: "test5", status: "🟢" },
         ];
-        
         const PUBLIC_BASE_PATH = ["artifacts", appId, "public", "data"];
         const attendanceDocRef = () => doc(db, ...PUBLIC_BASE_PATH, "attendance_data", "students_list");
-
         async function saveStudentData(data) {
             if (!db) { console.error("Database not initialized."); return; }
             if (!isOwner) { console.error("Only the owner can save changes."); return; }
@@ -675,7 +658,6 @@
 
         function renderAttendanceList(animate = true) {
             studentListEl.innerHTML = '';
-            
             if (attendanceData.length === 0) {
                 studentListEl.innerHTML = `<div class="text-gray-400 p-4">គ្មានទិន្នន័យសិស្សទេ។</div>`;
                 return;
@@ -698,7 +680,6 @@
                 statusEl.className = 'text-3xl font-extrabold cursor-default pr-4';
                 statusEl.textContent = student.status;
                 statusEl.title = isOwner ? "Click to toggle status" : student.status === '🟢' ? "Present" : "Absent";
-                
                 if (isOwner) {
                     statusEl.classList.add('cursor-pointer');
                     statusEl.addEventListener('click', (e) => {
@@ -728,10 +709,8 @@
 
         function toggleStudentStatus(index) {
             if (!isOwner) return;
-
             const newStatus = attendanceData[index].status === '🟢' ? '🔴' : '🟢';
             attendanceData[index].status = newStatus;
-
             // Save the updated array to Firestore
             saveStudentData(attendanceData);
             // The onSnapshot listener will handle re-rendering for all clients.
@@ -739,13 +718,11 @@
 
         function handleEdit(itemEl, index, nameContainer, originalName) {
             if (!isOwner) return;
-
             // 1. Replace name container with input field
             const input = document.createElement('input');
             input.type = 'text';
             input.value = originalName;
             input.className = 'w-full p-2 rounded-md bg-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400';
-            
             // Temporary hide status and replace name container
             const statusEl = itemEl.querySelector('span:first-child');
             if(statusEl) statusEl.style.visibility = 'hidden';
@@ -756,7 +733,6 @@
             // 2. Define the save function
             const saveChanges = () => {
                 const newName = input.value.trim();
-                
                 // If name is empty, revert to original
                 if (newName === "") {
                     // Do nothing and revert
@@ -786,7 +762,6 @@
 
         function listenToStudentData() {
             if (!db) return;
-            
             onSnapshot(attendanceDocRef(), async (docSnapshot) => {
                 if (docSnapshot.exists() && docSnapshot.data().students) {
                     attendanceData = docSnapshot.data().students;
@@ -823,7 +798,7 @@
                 
                 // If already on attendance screen, re-render to enable editing
                 if (currentView === 'attendance') {
-                    renderAttendanceList(true); 
+                    renderAttendanceList(true);
                 }
             } else {
                 errorMsgEl.classList.remove('hidden');
@@ -851,8 +826,7 @@
         // --- Firebase Initialization and Presence Tracking ---
 
         async function initializeFirebase() {
-            setLogLevel('debug'); 
-
+            setLogLevel('debug');
             if (Object.keys(firebaseConfig).length === 0) {
                 console.error("Firebase configuration is missing.");
                 return;
@@ -894,7 +868,6 @@
                         console.error("Firestore DB is not initialized. Cannot track presence.");
                     }
                 });
-                
             } catch (e) {
                 console.error("Firebase initialization failed:", e);
             }
@@ -903,23 +876,19 @@
         // IMPORTANT: Total users are counted using the unique keys in the 'total_users' map
         function trackPresence() {
             if (!db || !userId) return;
-
             const PUBLIC_BASE_PATH = ["artifacts", appId, "public", "data"]; 
             const statsDocRef = doc(db, ...PUBLIC_BASE_PATH, "stats", "user_count");
-            
             // Function to register the current user in the total count map
             const registerUniqueUser = async () => {
                 try {
                     const updateData = {};
                     updateData[`total_users.${userId}`] = serverTimestamp();
-                    await setDoc(statsDocRef, updateData, { merge: true }); 
+                    await setDoc(statsDocRef, updateData, { merge: true });
                 } catch (error) {
                     console.error("Error registering unique user:", error);
                 }
             };
             registerUniqueUser();
-
-
             // Listen for TOTAL UNIQUE users
             onSnapshot(statsDocRef, (docSnapshot) => {
                 if (docSnapshot.exists()) {
@@ -961,7 +930,6 @@
                     ownerCodeInput.focus();
                 }
             });
-
             // Owner Login Modal Logic
             ownerLoginBtn.addEventListener('click', handleOwnerLogin);
             ownerCodeInput.addEventListener('keypress', (e) => {
@@ -978,15 +946,12 @@
                     ownerCodeInput.value = '';
                 }
             });
-
-
             // Run initial update and set interval for time/day
             updateLiveTimeAndDay();
             setInterval(updateLiveTimeAndDay, 1000); 
             
             // Show welcome message
             initializeWelcome();
-
             // Initialize Firebase and start presence tracking after DOM is ready
             initializeFirebase();
         });

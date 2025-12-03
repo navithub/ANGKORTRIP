@@ -1,41 +1,164 @@
-/* --- Custom CSS for Smooth Rainbow Animation --- */
-@keyframes rainbow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+/* Note: Tailwind CSS classes are used for most styling, but these custom styles handle animations and complex layouts. */
+<style>
+    body {
+        font-family: 'Battambang', system-ui, sans-serif;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh; 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        background-color: #000000;
+        overflow-x: hidden;
+        position: relative;
+    }
 
-/* Background gradient for the body with slow animation */
-.rainbow-bg {
-    /* Deeper, more saturated gradient for a richer rainbow effect */
-    background: linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6, #ec4899, #f97316, #10b981);
-    background-size: 400% 400%;
-    animation: rainbow 40s ease-in-out infinite; /* Very slow and smooth animation */
-    background-attachment: fixed;
-}
+    /* Fixed Navigation Icons */
+    .fixed-icon {
+        position: fixed;
+        top: 20px;
+        font-size: 2.5rem;
+        cursor: pointer;
+        z-index: 50; 
+        transition: transform 0.2s, opacity 0.3s;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+    }
+    .fixed-icon:hover {
+        transform: scale(1.1);
+    }
+    #nav-icon-container { right: 20px; }
+    #owner-icon-container { left: 20px; }
 
-/* Apply the specific Khmer font globally and increase base size */
-body {
-    font-family: 'Battambang', system-ui, sans-serif;
-    font-size: 1.05rem; /* Increased base font size for better readability (zoom) */
-}
+    /* --- 1. Space Background Animations (Stars & Comet) --- */
+    @keyframes twinkle { /* Star twinkling animation */
+        0% { opacity: 0.5; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.2); }
+        100% { opacity: 0.5; transform: scale(1); }
+    }
+    .space-bg {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
+    }
+    .star {
+        position: absolute;
+        width: 2px; height: 2px;
+        background: #ffffff;
+        border-radius: 50%;
+        box-shadow: 0 0 5px #fff, 0 0 10px #ff0;
+        animation: twinkle 4s ease-in-out infinite alternate;
+    }
+    @keyframes shoot { /* Comet/Shooting Star Animation */
+        0% { transform: translate(-100vw, -100vh); opacity: 0; }
+        5% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { transform: translate(100vw, 100vh); opacity: 0; }
+    }
+    .comet {
+        position: absolute;
+        width: 3px; height: 3px;
+        background: linear-gradient(to right, rgba(255, 255, 255, 0), #ff8000);
+        border-radius: 50%;
+        box-shadow: 0 0 10px #ff8000;
+        animation: shoot 15s linear infinite;
+    }
 
-/* Table cell styling for better "zoom" and padding */
-.schedule-cell {
-    padding: 12px 8px; 
-    font-size: 0.95rem;
-    line-height: 1.4;
-    transition: background-color 0.2s;
-}
-
-.header-cell {
-    font-weight: 700;
-    padding: 16px 8px;
-    font-size: 1.1rem;
-    white-space: nowrap;
-}
-
-.code-text {
-    font-size: 1.1rem; /* Make the class code slightly bigger */
-}
-
+    /* --- 2. Alien Emoji Animation --- */
+    @keyframes float-alien {
+        0% { transform: translate(0, 0) rotate(5deg); }
+        50% { transform: translate(15px, -15px) rotate(-5deg); }
+        100% { transform: translate(0, 0) rotate(5deg); }
+    }
+    .alien {
+        position: absolute;
+        top: 5%; left: 5%;
+        font-size: 5rem;
+        opacity: 0.7;
+        animation: float-alien 8s ease-in-out infinite alternate;
+        z-index: 1;
+    }
+    .alien:nth-child(2) {
+        top: 80%; right: 10%; left: auto; font-size: 3rem; animation-delay: 2s;
+    }
+    
+    /* --- 3. Update Icon Animation --- */
+    @keyframes icon-shake { /* Shaking Icon */
+        0%, 100% { transform: rotate(0deg); }
+        20%, 60% { transform: rotate(-10deg); }
+        40%, 80% { transform: rotate(10deg); }
+    }
+    @keyframes text-glow { /* Glowing/Pulsing Text */
+        0%, 100% { color: #facc15; text-shadow: 0 0 5px #facc15, 0 0 10px #f97316; }
+        50% { color: #fee2e2; text-shadow: 0 0 10px #fee2e2, 0 0 20px #dc2626; }
+    }
+    #update-icon-container {
+        animation: icon-shake 1.5s infinite alternate;
+    }
+    #update-text {
+        animation: text-glow 4s infinite alternate;
+    }
+    
+    /* --- Other Styles --- */
+    @keyframes shimmer-glow { /* Creator Text Animation */
+        0% { text-shadow: 0 0 5px #fff, 0 0 10px #00ffff; transform: translateY(0) scale(1); }
+        50% { text-shadow: 0 0 15px #0ff, 0 0 25px #00ffff, 0 0 40px #0ff; transform: translateY(-3px) scale(1.02); }
+        100% { text-shadow: 0 0 5px #fff, 0 0 10px #00ffff; transform: translateY(0) scale(1); }
+    }
+    #creator-text {
+        animation: shimmer-glow 2.5s infinite alternate;
+        display: inline-block;
+        color: #fff; 
+        text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+    }
+    @keyframes pulse-glow { /* Live Date/Time Pulse Glow Animation */
+        0%, 100% { text-shadow: 0 0 5px rgba(100, 255, 255, 0.7), 0 0 10px rgba(0, 255, 0, 0.5); }
+        50% { text-shadow: 0 0 15px rgba(100, 255, 255, 1), 0 0 25px rgba(0, 255, 0, 0.8); }
+    }
+    .live-text {
+        animation: pulse-glow 3s infinite alternate;
+    }
+    @keyframes bounce-in { /* Card Entrance Animation */
+        0% { transform: scale(0.8) translateY(-50px); opacity: 0; }
+        50% { transform: scale(1.05) translateY(10px); opacity: 1; }
+        100% { transform: scale(1) translateY(0); }
+    }
+    .card-enter {
+        animation: bounce-in 0.8s ease-out both;
+    }
+    /* Schedule Transition Animation (Fade Out/In) */
+    .fade-out { opacity: 0; transition: opacity 0.3s ease-out; }
+    .fade-in { opacity: 1; transition: opacity 0.5s ease-in; }
+    @keyframes slide-up { /* Subject Item Animation */
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .subject-item {
+        animation: slide-up 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    }
+    @keyframes welcome-pop { /* Welcome Screen Animation */
+        0% { opacity: 0; transform: scale(0.5) rotate(-5deg); }
+        50% { opacity: 1; transform: scale(1.1) rotate(5deg); }
+        100% { opacity: 1; transform: scale(1) rotate(0); }
+    }
+    .welcome-active {
+        animation: welcome-pop 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    }
+    /* Modal Styles */
+    .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+    }
+    .modal-content {
+        background: #0f172a;
+        border: 3px solid #00ffff;
+        box-shadow: 0 0 20px #00ffff;
+        padding: 2rem;
+        border-radius: 1rem;
+        animation: bounce-in 0.5s ease-out both;
+    }
+</style>

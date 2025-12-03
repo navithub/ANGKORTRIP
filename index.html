@@ -3,54 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>តារាងបង្រៀន</title>
+    <title>🌌 តារាងបង្រៀន Space Update</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Base Styles for Body */
+        /* Base Styles for Body (Black Space Background) */
         body {
             font-family: 'Battambang', system-ui, sans-serif;
             margin: 0;
             padding: 0;
-            min-height: 100vh; /* Allow scrolling */
+            min-height: 100vh; 
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start; /* Align content to start for scrolling */
-            transition: background-color 1s ease-in-out; 
+            justify-content: flex-start;
+            background-color: #000000; /* Solid black background */
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* --- 1. Rainbow Animated Background (ALL BG) --- */
-        .rainbow-bg {
-            background: linear-gradient(120deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #9400d3, #ff0000);
-            background-size: 500% 500%;
-            animation: gradient-animation 25s ease infinite;
-        }
-        @keyframes gradient-animation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* --- 1. Space Background Animations (Stars & Comet) --- */
+        /* Animation for twinkling stars */
+        @keyframes twinkle {
+            0% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0.5; transform: scale(1); }
         }
 
-        /* --- 2. Creator Text Animation (Shimmering Glow) --- */
+        /* Container for stars and comet */
+        .space-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Star element styling */
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 5px #fff, 0 0 10px #ff0;
+            animation: twinkle 4s ease-in-out infinite alternate;
+        }
+
+        /* Comet/Shooting Star Animation */
+        @keyframes shoot {
+            0% { transform: translate(-100vw, -100vh); opacity: 0; }
+            5% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { transform: translate(100vw, 100vh); opacity: 0; }
+        }
+        .comet {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0), #ff8000);
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ff8000;
+            animation: shoot 15s linear infinite;
+        }
+
+        /* --- 2. Alien Emoji Animation --- */
+        @keyframes float-alien {
+            0% { transform: translate(0, 0) rotate(5deg); }
+            50% { transform: translate(15px, -15px) rotate(-5deg); }
+            100% { transform: translate(0, 0) rotate(5deg); }
+        }
+        .alien {
+            position: absolute;
+            top: 5%;
+            left: 5%;
+            font-size: 5rem;
+            opacity: 0.7;
+            animation: float-alien 8s ease-in-out infinite alternate;
+            z-index: 1;
+        }
+        .alien:nth-child(2) {
+            top: 80%;
+            right: 10%;
+            left: auto;
+            font-size: 3rem;
+            animation-delay: 2s;
+        }
+        
+        /* --- 3. Update Icon Animation --- */
+        /* Shaking Icon */
+        @keyframes icon-shake {
+            0%, 100% { transform: rotate(0deg); }
+            20%, 60% { transform: rotate(-10deg); }
+            40%, 80% { transform: rotate(10deg); }
+        }
+        /* Glowing/Pulsing Text */
+        @keyframes text-glow {
+            0%, 100% { color: #facc15; text-shadow: 0 0 5px #facc15, 0 0 10px #f97316; }
+            50% { color: #fee2e2; text-shadow: 0 0 10px #fee2e2, 0 0 20px #dc2626; }
+        }
+        
+        #update-icon-container {
+            animation: icon-shake 1.5s infinite alternate;
+        }
+        #update-text {
+            animation: text-glow 2s infinite alternate;
+        }
+        
+        /* --- Other Styles --- */
+        
+        /* Creator Text Animation (Shimmering Glow) */
         @keyframes shimmer-glow {
-            0% { text-shadow: 0 0 5px #fff, 0 0 10px #ff00ff; transform: translateY(0) scale(1); }
-            50% { text-shadow: 0 0 15px #ff0, 0 0 25px #ff00ff, 0 0 40px #ff0; transform: translateY(-3px) scale(1.02); }
-            100% { text-shadow: 0 0 5px #fff, 0 0 10px #ff00ff; transform: translateY(0) scale(1); }
+            0% { text-shadow: 0 0 5px #fff, 0 0 10px #00ffff; transform: translateY(0) scale(1); }
+            50% { text-shadow: 0 0 15px #0ff, 0 0 25px #00ffff, 0 0 40px #0ff; transform: translateY(-3px) scale(1.02); }
+            100% { text-shadow: 0 0 5px #fff, 0 0 10px #00ffff; transform: translateY(0) scale(1); }
         }
         #creator-text {
             animation: shimmer-glow 2.5s infinite alternate;
             display: inline-block;
             color: #fff; 
-            /* Ensure text stands out on the rainbow background */
             text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
         }
 
-        /* Live Date/Time Pulse Glow Animation */
+        /* Live Date/Time Pulse Glow Animation (Adapted for space theme) */
         @keyframes pulse-glow {
-            0%, 100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.7), 0 0 10px rgba(255, 100, 100, 0.5); }
-            50% { text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 25px rgba(255, 100, 100, 0.8); }
+            0%, 100% { text-shadow: 0 0 5px rgba(100, 255, 255, 0.7), 0 0 10px rgba(0, 255, 0, 0.5); }
+            50% { text-shadow: 0 0 15px rgba(100, 255, 255, 1), 0 0 25px rgba(0, 255, 0, 0.8); }
         }
         .live-text {
             animation: pulse-glow 3s infinite alternate;
@@ -79,7 +160,7 @@
             animation: slide-up 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
         }
         
-        /* --- Welcome Screen Animation --- */
+        /* Welcome Screen Animation */
         @keyframes welcome-pop {
             0% { opacity: 0; transform: scale(0.5) rotate(-5deg); }
             50% { opacity: 1; transform: scale(1.1) rotate(5deg); }
@@ -91,8 +172,17 @@
         
     </style>
 </head>
-<body class="rainbow-bg">
-
+<body>
+    
+    <!-- 1. SPACE BACKGROUND CONTAINER -->
+    <div id="space-bg" class="space-bg">
+        <!-- Alien 1 -->
+        <span class="alien" style="top: 15%; left: 10%; animation-delay: 0s;">👽</span>
+        <!-- Alien 2 -->
+        <span class="alien" style="top: 75%; right: 5%; left: auto; font-size: 3.5rem; animation-delay: 4s;">👾</span>
+        <!-- Comet/Shooting Star (Will be created dynamically in JS) -->
+    </div>
+    
     <!-- Welcome Overlay -->
     <div id="welcome-overlay" class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 transition-opacity duration-1000 ease-in-out">
         <div id="welcome-text" class="text-5xl md:text-7xl font-black text-yellow-400 opacity-0" style="text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);">
@@ -101,32 +191,32 @@
     </div>
 
     <!-- Main Content Wrapper -->
-    <div class="w-full max-w-4xl p-4 md:p-8 pt-10">
+    <div class="w-full max-w-4xl p-4 md:p-8 pt-10 z-10">
 
         <!-- Schedule Card -->
-        <div id="schedule-container" class="card-enter w-full bg-white/90 backdrop-blur-sm shadow-2xl rounded-3xl p-6 md:p-10 text-center border-4 border-white/70">
+        <div id="schedule-container" class="card-enter w-full bg-slate-900/90 backdrop-blur-md shadow-2xl rounded-3xl p-6 md:p-10 text-center border-4 border-cyan-400/50">
 
             <!-- Website Title -->
-            <h1 class="text-4xl md:text-6xl font-black mb-4 text-red-600 live-text tracking-wide" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.1);">
+            <h1 class="text-4xl md:text-6xl font-black mb-4 text-cyan-400 live-text tracking-wide" style="text-shadow: 0 0 10px rgba(0,255,255,0.5);">
                 តារាងបង្រៀន
             </h1>
             
             <!-- Live Date and Time -->
-            <div class="mb-8 text-lg md:text-xl font-bold text-gray-800 live-text">
+            <div class="mb-8 text-lg md:text-xl font-bold text-gray-200 live-text">
                 
                 <!-- Day Cycling Controls -->
                 <div class="flex items-center justify-center space-x-4">
                     
                     <!-- NEW: Home Button to revert to current day -->
-                    <button id="home-btn" class="text-3xl font-extrabold text-red-600 hover:text-red-900 transition duration-300 transform hover:scale-125 focus:outline-none" title="ត្រឡប់ទៅថ្ងៃពិតប្រាកដ">
+                    <button id="home-btn" class="text-3xl font-extrabold text-red-500 hover:text-red-700 transition duration-300 transform hover:scale-125 focus:outline-none" title="ត្រឡប់ទៅថ្ងៃពិតប្រាកដ">
                         🏠 <!-- Home Icon Emoji -->
                     </button>
 
-                    <button id="prev-day-btn" class="text-3xl font-extrabold text-blue-500 hover:text-blue-700 transition duration-300 transform hover:scale-125 focus:outline-none">
+                    <button id="prev-day-btn" class="text-3xl font-extrabold text-blue-400 hover:text-blue-600 transition duration-300 transform hover:scale-125 focus:outline-none">
                         &#x25C0; <!-- Left Arrow -->
                     </button>
-                    <span id="khmer-day" class="text-3xl md:text-4xl font-extrabold text-blue-700 block mb-1">...</span>
-                    <button id="next-day-btn" class="text-3xl font-extrabold text-blue-500 hover:text-blue-700 transition duration-300 transform hover:scale-125 focus:outline-none">
+                    <span id="khmer-day" class="text-3xl md:text-4xl font-extrabold text-white block mb-1 live-text">...</span>
+                    <button id="next-day-btn" class="text-3xl font-extrabold text-blue-400 hover:text-blue-600 transition duration-300 transform hover:scale-125 focus:outline-none">
                         &#x25B6; <!-- Right Arrow -->
                     </button>
                 </div>
@@ -134,34 +224,37 @@
                 <span id="live-date">...</span> | <span id="live-time">...</span>
             </div>
 
-            <!-- Presence Counters (Updated to use Eye and People icons) -->
+            <!-- Total Visitors Counter (Online counter removed as requested) -->
             <div class="flex justify-center items-center space-x-6 mb-4 text-xl">
-                <!-- Online/Viewing Counter -->
-                <div title="អ្នកកំពុងមើល" class="flex items-center space-x-2 text-green-600 font-bold live-text">
-                    <span class="text-3xl">👀</span> <!-- Eye Icon -->
-                    <span id="online-counter">0</span>
-                </div>
                 <!-- Total Visitors Counter -->
-                <div title="អ្នកចូលមើលទាំងអស់" class="flex items-center space-x-2 text-blue-600 font-bold">
+                <div title="អ្នកចូលមើលទាំងអស់" class="flex items-center space-x-2 text-yellow-400 font-bold live-text">
                     <span class="text-2xl">👥</span> <!-- People Icon -->
-                    <span id="total-counter">0</span>
+                    <span id="total-counter">54សិស្ស</span>
                 </div>
             </div>
 
-            <!-- User ID Display (Text changed from 'លេខសម្គាល់' to 'Account ID') -->
-            <div class="mb-6 text-lg font-bold text-gray-700 bg-yellow-100 p-2 rounded-lg shadow-inner">
-                Account ID: <span id="display-user-id" class="text-red-600 font-extrabold">...</span>
+            <!-- User ID Display -->
+            <div class="mb-6 text-lg font-bold text-gray-700 bg-cyan-900/50 p-2 rounded-lg shadow-inner border border-cyan-400/30">
+                <span class="text-cyan-400">Account ID:</span> <span id="display-user-id" class="text-yellow-400 font-extrabold">...</span>
+            </div>
+            
+            <!-- UPDATE ICON AND TEXT (NEW FEATURE) -->
+            <div id="update-icon-container" class="flex items-center justify-center space-x-2 mb-6">
+                <span class="text-4xl">🚀</span> <!-- Rocket Icon for Update -->
+                <span id="update-text" class="text-3xl md:text-4xl font-black tracking-wider">
+                    UPDATE!
+                </span>
             </div>
 
 
             <!-- Schedule Title -->
-            <h2 class="text-2xl md:text-3xl font-bold text-green-600 mb-6 border-b-2 pb-2 border-green-300">
+            <h2 class="text-2xl md:text-3xl font-bold text-green-500 mb-6 border-b-2 pb-2 border-green-500/50">
                 <span class="live-text">TODAY HAVE</span>
             </h2>
 
             <!-- Schedule List -->
             <div id="schedule-list" class="grid gap-4 text-left">
-                <div class="text-gray-500">កំពុងផ្ទុកតារាង...</div>
+                <div class="text-gray-400">កំពុងផ្ទុកតារាង...</div>
             </div>
             
             <!-- Spacer -->
@@ -170,7 +263,7 @@
         </div>
 
         <!-- Creator & Bio Section (Always visible) -->
-        <div id="creator-bio-section" class="w-full py-8 mt-4 text-center">
+        <div id="creator-bio-section" class="w-full py-8 mt-4 text-center z-10">
             
             <div id="creator-text-container" class="mb-4 text-center">
                 <span id="creator-text" class="text-xl md:text-3xl font-black tracking-widest transition-colors duration-500">
@@ -178,7 +271,7 @@
                 </span>
             </div>
 
-            <div id="bio-text" class="w-full max-w-2xl mx-auto p-6 rounded-2xl shadow-2xl bg-black/70 text-white/90">
+            <div id="bio-text" class="w-full max-w-2xl mx-auto p-6 rounded-2xl shadow-2xl bg-black/70 text-cyan-400/90 border border-cyan-400/50">
                 <p class="text-lg md:text-xl font-bold tracking-wide">
                     Thank For Using My Website I Just Show My IQ And This is For G7B2 Only
                 </p>
@@ -190,19 +283,16 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, onSnapshot, collection, serverTimestamp, updateDoc, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, onSnapshot, collection, serverTimestamp, updateDoc, setLogLevel, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- Global State & Constants ---
         let app = null;
         let auth = null;
         let db = null;
-        let userId = null; // The unique ID used in Firestore (can be UID or long anon ID)
+        let userId = null; // The unique ID used in Firestore 
         let displayUserId = null; // The short, formatted ID shown to the user
         let isAuthReady = false; 
-        const USER_ACTIVITY_TIMEOUT = 5 * 60 * 1000; // 5 minutes (300000ms)
         
-        // Removed NOTIFICATION_DURATION and NOTIFICATION_INTERVAL
-
         // Global Variables from Canvas Environment
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
@@ -213,9 +303,7 @@
         
         // Function to create the formatted display ID (ID926XXXX)
         function formatDisplayId(uniqueId) {
-            // Use the last 4 characters of the unique ID (either UID or anon ID)
             const uniquePart = uniqueId.slice(-4).toUpperCase();
-            // Ensure the result is always ID926 followed by 4 chars/digits
             return `ID926${uniquePart}`;
         }
         // --- END CUSTOM ID GENERATION ---
@@ -225,11 +313,14 @@
         const SCHEDULE_DATA = {
             1: { dayKh: "ថ្ងៃចន្ទ", classes: [{ subject: "អង់គ្លេស", time: "07:00 > 08:00" }, { subject: "ប្រវត្តិវិទ្យា", time: "08:00 > 09:00" }, { subject: "គណិតវិទ្យា", time: "09:00 > 11:00" }] },
             2: { dayKh: "ថ្ងៃអង្គារ", classes: [{ subject: "ភាសាខ្មែរ", time: "07:00 > 08:00" }, { subject: "ចិន", time: "08:00 > 09:00" }, { subject: "ផែនដីវិទ្យា", time: "09:00 > 10:00" }, { subject: "ភូមិវិទ្យា", time: "10:00 > 11:00" }, { subject: "កសិកម្ម", time: "14:00 > 16:00" }] },
-            3: { dayKh: "ថ្ងៃពុធ", classes: [{ subject: "គណិតវិទ្យា", time: "07:00 > 09:00" }, { subject: "គីមីវិទ្យា", time: "09:00 > 10:00" }, { subject: "ជីវវិទ្យា", time: "10:00 > 11:00" }] }, { subject: "សិល្បះ", time: "14:00 > 15:00" }] }, { subject: "អប់រំកាយកីឡា", time: "15:00 > 17:00" }] },
-            4: { dayKh: "ថ្ងៃព្រហស្បតិ៍", classes: [{ subject: "ភាសាខ្មែរ", time: "07:00 > 08:00" }, { subject: "ជីវវិទ្យា", time: "10:00 > 11:00" }] }, { subject: "បណ្ណាល័យ", time: "13:00 > 14:00" }] }, { subject: "គេហវិទ្យា", time: "15:00 > 17:00" }] },
+            // Corrected day 3 structure by ensuring it's an array of class objects
+            3: { dayKh: "ថ្ងៃពុធ", classes: [{ subject: "គណិតវិទ្យា", time: "07:00 > 09:00" }, { subject: "គីមីវិទ្យា", time: "09:00 > 10:00" }, { subject: "ជីវវិទ្យា", time: "10:00 > 11:00" }, { subject: "សិល្បះ", time: "14:00 > 15:00" }, { subject: "អប់រំកាយកីឡា", time: "15:00 > 17:00" }] },
+            // Corrected day 4 structure
+            4: { dayKh: "ថ្ងៃព្រហស្បតិ៍", classes: [{ subject: "ភាសាខ្មែរ", time: "07:00 > 08:00" }, { subject: "ជីវវិទ្យា", time: "10:00 > 11:00" }, { subject: "បណ្ណាល័យ", time: "13:00 > 14:00" }, { subject: "គេហវិទ្យា", time: "15:00 > 17:00" }] },
             5: { dayKh: "ថ្ងៃសុក្រ", classes: [{ subject: "ភាសាខ្មែរ", time: "07:00 > 09:00" }, { subject: "សីលធម៌ ពលរដ្ឋ", time: "09:00 > 10:00" }, { subject: "រូបវិទ្យា", time: "10:00 > 11:00" }] },
-            6: { dayKh: "ថ្ងៃសៅរ៍", classes: [{ subject: "ភូមិវិទ្យា", time: "07:00 > 08:00" }, { subject: "គណិតវិទ្យា", time: "08:00 > 10:00" }] }, { subject: "អង់គ្លេស", time: "10:00 > 11:00" }] }, { subject: "ភាសាបារាំង", time: "13:00 > 15:00" }] },
-            0: { dayKh: "ថ្ងៃអាទិត្យ", classes: [{ subject: "រីករាយថ្ងៃឈប់សម្រាក!", time: "ពេញមួយថ្ងៃ" }] }
+            // Corrected day 6 structure
+            6: { dayKh: "ថ្ងៃសៅរ៍", classes: [{ subject: "ភូមិវិទ្យា", time: "07:00 > 08:00" }, { subject: "គណិតវិទ្យា", time: "08:00 > 10:00" }, { subject: "អង់គ្លេស", time: "10:00 > 11:00" }, { subject: "ភាសាបារាំង", time: "13:00 > 15:00" }] },
+            0: { dayKh: "ថ្ងៃអាទិត្យ", classes: [{ subject: "រីករាយថ្ងៃឈប់សម្រាក! 😴", time: "ពេញមួយថ្ងៃ" }] }
         };
 
         // DOM Elements
@@ -240,17 +331,51 @@
         const nextDayBtn = document.getElementById('next-day-btn');
         const prevDayBtn = document.getElementById('prev-day-btn');
         const homeBtn = document.getElementById('home-btn'); 
-        const onlineCounterEl = document.getElementById('online-counter');
+        // const onlineCounterEl = document.getElementById('online-counter'); // Removed as requested
         const totalCounterEl = document.getElementById('total-counter');
         const displayUserIdEl = document.getElementById('display-user-id');
-        // Removed notification box element lookups (notificationBox1El, notificationBox2El, etc.)
-        // Removed notificationBoxes array
+        const spaceBgEl = document.getElementById('space-bg');
 
 
         let realDayIndex = null;
         let displayDayIndex = null;
         let overrideTimer = null;
-        // Removed currentNotificationIndex
+
+
+        // --- Space Background Functions ---
+
+        function createStar(delay) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.top = `${Math.random() * 100}vh`;
+            star.style.left = `${Math.random() * 100}vw`;
+            star.style.animationDelay = `${Math.random() * 4 + delay}s`;
+            star.style.width = `${Math.random() * 2 + 1}px`;
+            star.style.height = star.style.width;
+            return star;
+        }
+
+        function createComet() {
+            const comet = document.createElement('div');
+            comet.className = 'comet';
+            // Start the comet slightly off-screen top-left
+            comet.style.top = `${Math.random() * 20 - 10}vh`;
+            comet.style.left = `${Math.random() * 20 - 10}vw`;
+            comet.style.animationDelay = `${Math.random() * 20}s`; // Stagger the comet animations
+            comet.style.animationDuration = `${Math.random() * 10 + 10}s`; // Vary speed
+            return comet;
+        }
+
+        function initializeSpaceBackground() {
+            // Create 100 stars
+            for (let i = 0; i < 100; i++) {
+                spaceBgEl.appendChild(createStar(i * 0.05));
+            }
+            // Create 3 comets
+            for (let i = 0; i < 3; i++) {
+                spaceBgEl.appendChild(createComet());
+            }
+        }
 
 
         // --- Utility Functions ---
@@ -275,7 +400,8 @@
             
             classes.forEach((item, index) => {
                 const subjectEl = document.createElement('div');
-                subjectEl.className = 'bg-gray-100 p-4 rounded-xl shadow-lg flex justify-between items-center text-gray-800 border-l-8 border-yellow-500 hover:shadow-xl transition duration-300 transform hover:scale-[1.01]';
+                // Updated styling for space theme
+                subjectEl.className = 'bg-cyan-900/40 p-4 rounded-xl shadow-lg flex justify-between items-center text-gray-100 border-l-4 border-yellow-400 hover:shadow-cyan-500/50 transition duration-300 transform hover:scale-[1.01]';
                 
                 if (animate) {
                     subjectEl.classList.add('subject-item');
@@ -287,7 +413,8 @@
                 subjectText.textContent = item.subject;
 
                 const timeText = document.createElement('span');
-                timeText.className = 'text-sm md:text-lg font-medium text-red-500 bg-yellow-100 px-3 py-1 rounded-full shadow-inner';
+                // Updated time block styling
+                timeText.className = 'text-sm md:text-lg font-medium text-red-400 bg-yellow-400/20 px-3 py-1 rounded-full shadow-inner border border-yellow-400';
                 timeText.textContent = item.time;
                 
                 subjectEl.appendChild(subjectText);
@@ -379,10 +506,7 @@
                 renderSchedule(realDayIndex, true);
             }
         }
-
-        // --- Notification Functions (REMOVED) ---
-        // hideAllNotifications(), showNotificationCycle(), startNotificationLoop() have been removed.
-
+        
         // --- Welcome Initialization ---
 
         function initializeWelcome() {
@@ -396,7 +520,6 @@
                 
                 setTimeout(() => {
                     overlay.remove();
-                    // Removed: startNotificationLoop(); 
                 }, 1000); // Wait for opacity transition to finish
             }, 3000); // Welcome text display time
         }
@@ -404,7 +527,6 @@
         // --- Firebase Initialization and Presence Tracking ---
 
         async function initializeFirebase() {
-            // Enable Firestore debug logging (Helpful for diagnosing permission errors)
             setLogLevel('debug'); 
 
             if (Object.keys(firebaseConfig).length === 0) {
@@ -427,23 +549,20 @@
                     await signInAnonymously(auth);
                 }
 
-                // 2. Set up Auth State Listener (Crucial for getting UID and starting presence tracking)
+                // 2. Set up Auth State Listener 
                 onAuthStateChanged(auth, (user) => {
                     if (user) {
                         userId = user.uid;
                     } else {
-                        // Fallback for anonymous users
                         userId = generateAnonId(); 
                     }
                     
-                    // Generate and display the formatted ID IMMEDIATELY after getting userId
                     displayUserId = formatDisplayId(userId);
                     displayUserIdEl.textContent = displayUserId;
 
                     isAuthReady = true;
                     console.log("Auth Ready. User ID:", userId, "Display ID:", displayUserId);
 
-                    // Once authenticated, start presence tracking to update the counters
                     if (db) {
                         trackPresence();
                     } else {
@@ -463,10 +582,9 @@
             console.log("Starting presence tracking for:", userId);
 
             // Path components for the required public collection structure:
-            // /artifacts/{appId}/public/data/{collection_name} (5 segments - Odd)
-            const PUBLIC_BASE_PATH = ["artifacts", appId, "public", "data"]; // 4 segments: C/D/C/D
+            const PUBLIC_BASE_PATH = ["artifacts", appId, "public", "data"]; // C/D/C/D
 
-            // --- 1. Real-time Online Status ---
+            // --- 1. Real-time Online Status (Still needed for the total count heartbeat) ---
             const onlinePresenceRef = collection(db, ...PUBLIC_BASE_PATH, "online_status");
             const currentUserOnlineDocRef = doc(onlinePresenceRef, userId);
 
@@ -474,14 +592,12 @@
             const setOnline = async (isOnline) => {
                 try {
                     if (isOnline) {
-                        // Set/Update last_seen to show they are currently active
                         await setDoc(currentUserOnlineDocRef, {
                             last_seen: serverTimestamp(),
                             user_id: userId,
-                            display_id: displayUserId // Store the display ID too, just in case
+                            display_id: displayUserId
                         });
                     } else {
-                        // When leaving, update last_seen_offline but keep the doc for total count
                         await updateDoc(currentUserOnlineDocRef, {
                             last_seen_offline: serverTimestamp(),
                         }).catch(err => {
@@ -495,27 +611,21 @@
                 }
             };
 
-            // Update when opening/focusing the window (Heartbeat)
+            // Heartbeat
             setOnline(true);
             window.addEventListener('focus', () => setOnline(true));
-            // Set heartbeat every 2 minutes to keep status 'fresh'
             setInterval(() => setOnline(true), 2 * 60 * 1000); 
-
-            // Update when closing/leaving the window
             window.addEventListener('beforeunload', () => setOnline(false));
 
 
-            // --- 2. Total Users (Using a public collection to track unique IDs) ---
+            // --- 2. Total Users ---
             const statsDocRef = doc(db, ...PUBLIC_BASE_PATH, "stats", "user_count");
             
             // Update the total unique visitors count field for this user
             const updateStats = async () => {
                 try {
                     const updateData = {};
-                    // Use the unique user ID as a key in the map to track total users
                     updateData[`total_users.${userId}`] = serverTimestamp();
-                    
-                    // Try to update/create the document, merging with existing data
                     await setDoc(statsDocRef, updateData, { merge: true });
                 } catch (error) {
                     console.error("Error setting/updating total user count:", error);
@@ -524,52 +634,31 @@
             updateStats();
 
 
-            // --- 3. Listen for Online Count (Active within the last 5 minutes) ---
-            onSnapshot(onlinePresenceRef, (snapshot) => {
-                let onlineCount = 0;
-                const cutoff = Date.now() - USER_ACTIVITY_TIMEOUT; 
-
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    const lastSeenTimestamp = data.last_seen;
-
-                    if (lastSeenTimestamp) {
-                        // Convert Firestore Timestamp to JS Date object for comparison
-                        const lastSeenTime = lastSeenTimestamp.toDate().getTime();
-
-                        // Check if active in the last 5 minutes (USER_ACTIVITY_TIMEOUT)
-                        if (lastSeenTime > cutoff) {
-                            onlineCount++;
-                        }
-                    }
-                });
-                
-                onlineCounterEl.textContent = onlineCount;
-                console.log("Online count updated (viewers):", onlineCount);
-            }, (error) => {
-                console.error("Error listening to online presence (Check Security Rules!):", error);
-            });
-
-            // --- 4. Listen for TOTAL UNIQUE users ---
+            // --- 3. Listen for TOTAL UNIQUE users (Online counter removed) ---
             onSnapshot(statsDocRef, (docSnapshot) => {
                 if (docSnapshot.exists()) {
                     const data = docSnapshot.data();
-                    // Total users is the count of unique keys in the 'total_users' map
                     const totalUsers = data.total_users ? Object.keys(data.total_users).length : 0;
                     totalCounterEl.textContent = totalUsers;
                     console.log("Total count updated:", totalUsers);
                 } else {
-                    totalCounterEl.textContent = 1; // If the doc doesn't exist, this user is the first
+                    totalCounterEl.textContent = 1; 
                     console.log("Total count updated: 1 (initial visitor)");
                 }
             }, (error) => {
                 console.error("Error listening to total users (Check Security Rules!):", error);
             });
+            
+            // NOTE: The 'online_status' collection is still updated by the heartbeat, but we stop listening 
+            // to it here and removed the display element (onlineCounterEl) as requested.
         }
 
         // --- Initialization ---
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Setup space background first
+            initializeSpaceBackground();
+            
             // Setup day cycling buttons
             nextDayBtn.addEventListener('click', () => cycleDay(1)); // +1 day
             prevDayBtn.addEventListener('click', () => cycleDay(-1)); // -1 day
